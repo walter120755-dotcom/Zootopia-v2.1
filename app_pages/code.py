@@ -176,7 +176,7 @@ if role == "Coder":
 
     st.subheader("L4 版本内人物刻画功能")
     current_record = {**existing, **st.session_state["annotations"].get(annotation_key, {})}
-    with st.expander("已记录的L1–L3 cues", expanded=True, icon=":material/evidence:"):
+    with st.expander("已记录的L1–L3 cues", expanded=True, icon=":material/visibility:"):
         cue_ids = [
             "st_naming_expression", "tt_naming_expression", "st_characterizing_cotext", "tt_characterizing_cotext",
             "shared_visual_evidence_records", "st_vocal_evidence_records", "tt_vocal_evidence_records",
