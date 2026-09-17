@@ -1,0 +1,2 @@
+﻿event_id,source_candidate_id,candidate_version_origin,inclusion_status,speaker,target,addressee,target_cardinality,shared_av_window_start,shared_av_window_end,st_host_utterance,tt_host_utterance,st_naming_head,tt_naming_head,st_naming_expression,tt_naming_expression,st_characterizing_cotext,tt_characterizing_cotext
+ZN-P021-01,ZN-P021-01,Both,Pending Review,Truck driver,Nick,Nick,Individual,00:17:51,00:17:53,"Hey, watch where you’re going, Fox!",看着点路，狐狸！,Fox,狐狸,Fox,狐狸,"Hey, watch where you’re going, […]!",看着点路，[…]！

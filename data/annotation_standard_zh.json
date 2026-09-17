@@ -1,0 +1,1910 @@
+{
+  "title": "《疯狂动物城》命名实践编码手册",
+  "version": "2.1 Revised Pre-pilot",
+  "codebook_version": "2.1-revised-pre-pilot",
+  "scope": "英语原声与中国大陆普通话配音中的角色导向口语Naming Events。一个Event锚定一个可独立定位的naming expression occurrence。",
+  "media_policy": "网页不加载视频、视频URL或Praat截图。Coder依据Shared AV Window在项目授权媒体中核验；Praat仅由Researcher按请求在网页外使用。",
+  "field_count": 92,
+  "quick_start": {
+    "minimum_unit": "一条Naming Event是一条多模态数据库记录，以一个可独立定位的naming expression occurrence为锚点，并绑定ST／TT语言、共享片段、参与者、版本内证据和跨版本结果。",
+    "workflow": "Researcher预建Event并预填元数据 → Coder核验纳入和L0／L1 → 记录L3 → 完成并锁定ST L4 → 完成TT L4 → Researcher完成L5／L6 → Reviewer审核。",
+    "roles": {
+      "Coder": "核验预建Event，完成红色必填字段和结构化Evidence Records。",
+      "Reviewer": "处理边界与分类分歧，复查证据回链和L5质量门；不得审核自己的标注。",
+      "Researcher": "维护候选语料、来源、派生字段、L5和L6。",
+      "System": "生成Event ID、计算时长与Temporal IoU，并保存版本和时间戳。"
+    }
+  },
+  "levels": [
+    {
+      "id": "L0",
+      "title_zh": "候选语料与可追溯性",
+      "fields": [
+        {
+          "id": "event_id",
+          "code": "L0.1",
+          "display_name": "L0.1 Event ID",
+          "definition_zh": "每个候选Naming Event的不可变唯一标识。",
+          "fill_zh": "System生成；Coder只读。拆分后的Event保留独立ID。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "system",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "source_candidate_id",
+          "code": "L0.1",
+          "display_name": "L0.1 Source Candidate ID",
+          "definition_zh": "拆分前元数据候选行的稳定标识。",
+          "fill_zh": "Researcher预填；同一旧候选拆成多条Event时共同保留原ID。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "candidate_version_origin",
+          "code": "L0.2",
+          "display_name": "L0.2 Candidate Version Origin",
+          "definition_zh": "候选命名表达在哪一版本中有显性实现。",
+          "fill_zh": "按当前Event的ST／TT Naming Presence核验。",
+          "options": [
+            "Both",
+            "ST only",
+            "TT only"
+          ],
+          "theory_zh": "",
+          "value_guides": [
+            {
+              "headers": [
+                "Value",
+                "定义／判定规则",
+                "语料示例"
+              ],
+              "rows": [
+                [
+                  "Both",
+                  "ST与TT均有显性naming expression。",
+                  "ZN-P011-02 Officer Hopps／朱迪警官"
+                ],
+                [
+                  "ST only",
+                  "ST有显性表达，TT无显性表达。",
+                  "ZN-P023-01 metermaid／TT No Overt"
+                ],
+                [
+                  "TT only",
+                  "ST无显性表达，TT有显性表达。",
+                  "ZN-P008-02 ST No Overt／臭狐狸"
+                ]
+              ]
+            }
+          ],
+          "field_type": "controlled_single",
+          "entry_role": "coder_verification",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "inclusion_status",
+          "code": "L0.3",
+          "display_name": "L0.3 ★ Inclusion Decision",
+          "definition_zh": "Coder核验Researcher预建的候选Event是否满足纳入规则。",
+          "fill_zh": "每条候选项选择Included、Excluded或Pending Review。Excluded时填写L0.4。",
+          "options": [
+            "Included",
+            "Excluded",
+            "Pending Review"
+          ],
+          "theory_zh": "",
+          "value_guides": [
+            {
+              "headers": [
+                "Value",
+                "定义／判定规则",
+                "语料示例"
+              ],
+              "rows": [
+                [
+                  "Included",
+                  "满足纳入标准，进入L1、L3和L4。",
+                  "ZN-P021-01 Fox／狐狸"
+                ],
+                [
+                  "Excluded",
+                  "满足排除标准，并填写排除原因。",
+                  "ZN-P018-02 cute／可爱作为单独性质形容词候选"
+                ],
+                [
+                  "Pending Review",
+                  "边界、Target或单位仍有分歧。",
+                  "提交Reviewer并写明问题"
+                ]
+              ]
+            }
+          ],
+          "field_type": "controlled_single",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "exclusion_reason",
+          "code": "L0.4",
+          "display_name": "L0.4 Exclusion Reason",
+          "definition_zh": "Excluded项目的标准化排除原因。",
+          "fill_zh": "仅在Inclusion Decision=Excluded时填写。",
+          "options": [
+            "No Naming Expression",
+            "Target Outside Scope",
+            "Visual-only Label",
+            "Duplicate",
+            "Boundary Error",
+            "Source Error",
+            "Media Not Assessable",
+            "Other"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "exclusion_note",
+          "code": "L0.4",
+          "display_name": "L0.4 Exclusion Note",
+          "definition_zh": "排除原因的可复核说明。",
+          "fill_zh": "Duplicate或Other必须注明保留ID或具体理由。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "coder",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "speaker",
+          "code": "L0.5",
+          "display_name": "L0.5 ★ Speaker",
+          "definition_zh": "实际说出或配读当前话语的角色。",
+          "fill_zh": "Researcher预填，Coder核验；旁白写Narrator。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "coder_verification",
+          "required": true,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "target",
+          "code": "L0.5",
+          "display_name": "L0.5 ★ Target",
+          "definition_zh": "当前naming expression所识别、称呼、归类或被赋名的人物或群体。",
+          "fill_zh": "Researcher预填，Coder核验；self-naming时写Speaker本身。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "coder_verification",
+          "required": true,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "addressee",
+          "code": "L0.5",
+          "display_name": "L0.5 ★ Addressee",
+          "definition_zh": "当前话轮直接面向的听者。",
+          "fill_zh": "Researcher预填，未知时留空并在source_note说明。Target与Addressee可不同。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "coder_verification",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "target_cardinality",
+          "code": "L0.5",
+          "display_name": "L0.5 ★ Target Cardinality",
+          "definition_zh": "当前expression指向一个人物、人物群体或二者组合。",
+          "fill_zh": "选择最符合当前Event的一项。",
+          "options": [
+            "Individual",
+            "Group",
+            "Mixed",
+            "Unclear"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder_verification",
+          "required": true,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "shared_av_window_start",
+          "code": "L0.6",
+          "display_name": "L0.6 ★ Shared AV Window Start",
+          "definition_zh": "两版本采用相同起始画面的片段起点。",
+          "fill_zh": "Researcher预填全片时间戳；Coder核验。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "coder_verification",
+          "required": true,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "shared_av_window_end",
+          "code": "L0.6",
+          "display_name": "L0.6 ★ Shared AV Window End",
+          "definition_zh": "两版本采用相同终止画面的片段终点。",
+          "fill_zh": "Researcher预填全片时间戳；Coder核验。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "coder_verification",
+          "required": true,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "clip_duration",
+          "code": "L0.6",
+          "display_name": "L0.6 Clip Duration Seconds",
+          "definition_zh": "共享片段总时长，作为clip-local time归一化分母。",
+          "fill_zh": "System由start/end计算；Researcher核验。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "decimal",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "av_window_verification",
+          "code": "L0.6",
+          "display_name": "L0.6 ★ AV Window Verification",
+          "definition_zh": "共享片段的边界和版本核验结果。",
+          "fill_zh": "检查目标话语完整、画面范围一致、音轨版本正确。",
+          "options": [
+            "Confirmed",
+            "Boundary Correction Needed",
+            "Version Mismatch",
+            "Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder_verification",
+          "required": true,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "source_file_st",
+          "code": "L0.7",
+          "display_name": "L0.7 ST Source File",
+          "definition_zh": "英语剧本或转写文件名及版本。",
+          "fill_zh": "Researcher预填。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "source_location_st",
+          "code": "L0.7",
+          "display_name": "L0.7 ST Source Location",
+          "definition_zh": "ST剧本页码或稳定位置。",
+          "fill_zh": "Researcher预填，例如PDF page 11。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "source_file_tt",
+          "code": "L0.7",
+          "display_name": "L0.7 TT Source File",
+          "definition_zh": "普通话校对稿文件名及版本。",
+          "fill_zh": "Researcher预填。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "source_location_tt",
+          "code": "L0.7",
+          "display_name": "L0.7 TT Source Location",
+          "definition_zh": "TT段落号或稳定文本位置。",
+          "fill_zh": "Researcher预填。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "source_alignment_status",
+          "code": "L0.7",
+          "display_name": "L0.7 Source Alignment Status",
+          "definition_zh": "ST与TT文本对齐状态。",
+          "fill_zh": "Researcher预填，Coder核验。",
+          "options": [
+            "Aligned",
+            "Needs Correction",
+            "Not Comparable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder_verification",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "source_verification_status",
+          "code": "L0.7",
+          "display_name": "L0.7 Source Verification Status",
+          "definition_zh": "整条来源核验结果。",
+          "fill_zh": "选择需要更正的材料类型。",
+          "options": [
+            "Verified",
+            "Needs Text Correction",
+            "Needs AV Correction",
+            "Needs Both",
+            "Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder_verification",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "source_note",
+          "code": "L0.7",
+          "display_name": "L0.7 Source Note",
+          "definition_zh": "版本差异、脚本缺行、定位或拆分说明。",
+          "fill_zh": "仅在存在问题或需解释拆分时填写。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        }
+      ]
+    },
+    {
+      "id": "L1",
+      "title_zh": "命名实现与语言对应",
+      "fields": [
+        {
+          "id": "st_host_utterance",
+          "code": "L1.1",
+          "display_name": "L1.1 ★ ST Host Utterance",
+          "definition_zh": "ST中包含当前Event的最小完整分句、句子或话轮。",
+          "fill_zh": "保留决定expression语法位置和局部意义的词语。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "coder_verification",
+          "required": true,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "tt_host_utterance",
+          "code": "L1.1",
+          "display_name": "L1.1 ★ TT Host Utterance",
+          "definition_zh": "TT中包含当前Event的最小完整分句、句子或话轮。",
+          "fill_zh": "按普通话实际音轨核验。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "coder_verification",
+          "required": true,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "host_verification",
+          "code": "L1.1",
+          "display_name": "L1.1 ★ Host Verification",
+          "definition_zh": "两侧Host转写与边界核验状态。",
+          "fill_zh": "若需更正，先在source_note记录。",
+          "options": [
+            "Confirmed",
+            "ST Correction Needed",
+            "TT Correction Needed",
+            "Both Correction Needed",
+            "Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder_verification",
+          "required": true,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "st_naming_presence",
+          "code": "L1.2",
+          "display_name": "L1.2 ★ ST Naming Presence",
+          "definition_zh": "ST是否有可定位的显性naming expression。",
+          "fill_zh": "先判断Presence，再核验Head和Expression。",
+          "options": [
+            "Overt",
+            "No Overt",
+            "Unclear",
+            "Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "tt_naming_presence",
+          "code": "L1.2",
+          "display_name": "L1.2 ★ TT Naming Presence",
+          "definition_zh": "TT是否有可定位的显性naming expression。",
+          "fill_zh": "与ST使用相同状态规则。",
+          "options": [
+            "Overt",
+            "No Overt",
+            "Unclear",
+            "Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "st_naming_head",
+          "code": "L1.3",
+          "display_name": "L1.3 ★ ST Naming Head",
+          "definition_zh": "ST expression中承担主要名称或人物类别的名词、专名或名词化形式。",
+          "fill_zh": "一个Event只保留一个head。our first bunny的head为bunny。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "coder_verification",
+          "required": true,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "tt_naming_head",
+          "code": "L1.3",
+          "display_name": "L1.3 ★ TT Naming Head",
+          "definition_zh": "TT expression中的主要名称或人物类别核心。",
+          "fill_zh": "一个Event只保留一个head；No Overt写NULL_NO_OVERT。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "coder_verification",
+          "required": true,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "st_naming_expression",
+          "code": "L1.3",
+          "display_name": "L1.3 ★ ST Naming Expression",
+          "definition_zh": "围绕ST Naming Head形成的完整命名短语。",
+          "fill_zh": "纳入短语内部限定语、数量语和修饰语；句级成分留在Co-text。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "coder_verification",
+          "required": true,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "tt_naming_expression",
+          "code": "L1.3",
+          "display_name": "L1.3 ★ TT Naming Expression",
+          "definition_zh": "围绕TT Naming Head形成的完整命名短语。",
+          "fill_zh": "与ST使用相同边界规则；No Overt写NULL_NO_OVERT。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "coder_verification",
+          "required": true,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "st_text_span",
+          "code": "L1.3",
+          "display_name": "L1.3 ★ ST Text Span",
+          "definition_zh": "ST Naming Expression在Host中的字符或token边界。",
+          "fill_zh": "使用可复核的起止位置，例如chars 18–33。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "coder_verification",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "tt_text_span",
+          "code": "L1.3",
+          "display_name": "L1.3 ★ TT Text Span",
+          "definition_zh": "TT Naming Expression在Host中的字符或token边界。",
+          "fill_zh": "使用可复核的起止位置。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "coder_verification",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "st_naming_onset",
+          "code": "L1.3",
+          "display_name": "L1.3 ★ ST Naming Onset",
+          "definition_zh": "ST expression相对shared clip起点的开始秒数。",
+          "fill_zh": "shared clip起点记为00:00。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "decimal",
+          "entry_role": "coder_verification",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "st_naming_offset",
+          "code": "L1.3",
+          "display_name": "L1.3 ★ ST Naming Offset",
+          "definition_zh": "ST expression相对shared clip起点的结束秒数。",
+          "fill_zh": "必须大于或等于onset。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "decimal",
+          "entry_role": "coder_verification",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "tt_naming_onset",
+          "code": "L1.3",
+          "display_name": "L1.3 ★ TT Naming Onset",
+          "definition_zh": "TT expression相对shared clip起点的开始秒数。",
+          "fill_zh": "shared clip起点记为00:00。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "decimal",
+          "entry_role": "coder_verification",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "tt_naming_offset",
+          "code": "L1.3",
+          "display_name": "L1.3 ★ TT Naming Offset",
+          "definition_zh": "TT expression相对shared clip起点的结束秒数。",
+          "fill_zh": "必须大于或等于onset。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "decimal",
+          "entry_role": "coder_verification",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "st_characterizing_cotext",
+          "code": "L1.4",
+          "display_name": "L1.4 ★ ST Characterizing Co-text",
+          "definition_zh": "ST Host扣除当前ST expression span后保留的全部语言成分。",
+          "fill_zh": "删除位置用[…]标示，其余文字保持原顺序。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "coder_verification",
+          "required": true,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "tt_characterizing_cotext",
+          "code": "L1.4",
+          "display_name": "L1.4 ★ TT Characterizing Co-text",
+          "definition_zh": "TT Host扣除当前TT expression span后保留的全部语言成分。",
+          "fill_zh": "No Overt时保存完整TT Host。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "coder_verification",
+          "required": true,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "cotext_verification",
+          "code": "L1.4",
+          "display_name": "L1.4 ★ Co-text Verification",
+          "definition_zh": "两侧Co-text预填结果的核验状态。",
+          "fill_zh": "核验删除位置、Host完整性和No Overt处理。",
+          "options": [
+            "Confirmed",
+            "Correction Needed",
+            "No Overt Host Retained",
+            "Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder_verification",
+          "required": true,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "st_realization_environment",
+          "code": "L1.5",
+          "display_name": "L1.5 ★ ST Realization Environment",
+          "definition_zh": "ST naming expression在Host中的主要语法或话语位置。",
+          "fill_zh": "每侧选择一个主值。",
+          "options": [
+            "Direct Address",
+            "Referring NP as Subject",
+            "Referring NP after Verb or Preposition",
+            "Subject–Label Statement",
+            "Appositive Naming Unit",
+            "Metalinguistic Mention",
+            "Other",
+            "Unclear／Not Applicable"
+          ],
+          "theory_zh": "",
+          "value_guides": [
+            {
+              "headers": [
+                "Value",
+                "定义／判定规则",
+                "语料示例"
+              ],
+              "rows": [
+                [
+                  "Direct Address",
+                  "直接呼叫或面向现场对象。",
+                  "ZN-P021-01 Fox!"
+                ],
+                [
+                  "Referring NP as Subject",
+                  "expression在分句中充当主语。",
+                  "ZN-P005-04 Bunnies don’t do that."
+                ],
+                [
+                  "Referring NP after Verb or Preposition",
+                  "位于动词或介词之后并指明人物。",
+                  "ZN-P022-01 for my little boy"
+                ],
+                [
+                  "Subject–Label Statement",
+                  "主语通过连接成分被归入身份或类别。",
+                  "ZN-P007-03 I’m a fox. 取a fox"
+                ],
+                [
+                  "Appositive Naming Unit",
+                  "同指命名短语后的补充名称或身份。",
+                  "ZN-P020-01-B Officer Hopps"
+                ],
+                [
+                  "Metalinguistic Mention",
+                  "名称或标签位于命名、回忆、质疑或拒绝label的话语中。",
+                  "ZN-P072-01-B called him Lionfart"
+                ],
+                [
+                  "Other",
+                  "可稳定描述但不属于上述环境。",
+                  "填写note"
+                ],
+                [
+                  "Unclear／Not Applicable",
+                  "两类竞争或该侧No Overt。",
+                  "提交Reviewer或跳过"
+                ]
+              ]
+            }
+          ],
+          "field_type": "controlled_single",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "tt_realization_environment",
+          "code": "L1.5",
+          "display_name": "L1.5 ★ TT Realization Environment",
+          "definition_zh": "TT naming expression在Host中的主要语法或话语位置。",
+          "fill_zh": "使用与ST相同值域，依据普通话Host独立判断。",
+          "options": [
+            "Direct Address",
+            "Referring NP as Subject",
+            "Referring NP after Verb or Preposition",
+            "Subject–Label Statement",
+            "Appositive Naming Unit",
+            "Metalinguistic Mention",
+            "Other",
+            "Unclear／Not Applicable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "st_naming_bases",
+          "code": "L1.6",
+          "display_name": "L1.6 ★ ST Naming Basis",
+          "definition_zh": "ST expression用什么身份、关系、群体或人物类别指认Target。",
+          "fill_zh": "具有独立词汇证据时可多选；纯评价修饰不自动成为Basis。",
+          "options": [
+            "Personal Name",
+            "Nickname／Alias／Associative Name",
+            "Institutional Title or Role",
+            "Kinship／Relational Role",
+            "Species／Biological Group",
+            "Social／Collective Category",
+            "Physical Attribute",
+            "Trait／Behaviour／Competence",
+            "Other／Unclear"
+          ],
+          "theory_zh": "",
+          "value_guides": [
+            {
+              "headers": [
+                "Value",
+                "定义／判定规则",
+                "语料示例"
+              ],
+              "rows": [
+                [
+                  "Personal Name",
+                  "正式全名、姓或名。",
+                  "ZN-P096-03-B Doug"
+                ],
+                [
+                  "Nickname／Alias／Associative Name",
+                  "亲昵变体、别名或联想性命名。",
+                  "ZN-P057-01 Nicky"
+                ],
+                [
+                  "Institutional Title or Role",
+                  "礼貌头衔、军警衔、职业或制度岗位。",
+                  "ZN-P011-02 Officer Hopps"
+                ],
+                [
+                  "Kinship／Relational Role",
+                  "亲属关系或双方关系角色。",
+                  "ZN-P024-02-A great dad"
+                ],
+                [
+                  "Species／Biological Group",
+                  "物种或生物群体。",
+                  "ZN-P021-01 Fox"
+                ],
+                [
+                  "Social／Collective Category",
+                  "社会群体或集体身份。",
+                  "ZN-P020-02 token bunny"
+                ],
+                [
+                  "Physical Attribute",
+                  "以外形或身体特征形成head label。",
+                  "ZN-P010-01 fluff butt"
+                ],
+                [
+                  "Trait／Behaviour／Competence",
+                  "以品格、行为或能力形成head label。",
+                  "ZN-P007-01 loser"
+                ],
+                [
+                  "Other／Unclear",
+                  "需要说明或无法稳定归类。",
+                  "提交Reviewer"
+                ]
+              ]
+            }
+          ],
+          "field_type": "controlled_multi",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "tt_naming_bases",
+          "code": "L1.6",
+          "display_name": "L1.6 ★ TT Naming Basis",
+          "definition_zh": "TT expression用什么身份、关系、群体或人物类别指认Target。",
+          "fill_zh": "使用与ST相同值域并依据TT wording独立判断。",
+          "options": [
+            "Personal Name",
+            "Nickname／Alias／Associative Name",
+            "Institutional Title or Role",
+            "Kinship／Relational Role",
+            "Species／Biological Group",
+            "Social／Collective Category",
+            "Physical Attribute",
+            "Trait／Behaviour／Competence",
+            "Other／Unclear"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_multi",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "st_interactional_treatment",
+          "code": "L1.7",
+          "display_name": "L1.7 ★ ST Primary Interactional Treatment",
+          "definition_zh": "Speaker在ST当前话轮中通过naming expression对Target采取的主要互动处理。",
+          "fill_zh": "每侧选择一个主值。",
+          "options": [
+            "Unmarked Identification／Address",
+            "Respectful／Status-elevating",
+            "Familiar／Affectionate",
+            "Diminutive／Patronizing",
+            "Disparaging／Devaluing",
+            "Playful／Teasing",
+            "Self-positioning",
+            "Mixed／Unclear／Not Applicable"
+          ],
+          "theory_zh": "",
+          "value_guides": [
+            {
+              "headers": [
+                "Value",
+                "定义／判定规则",
+                "语料示例"
+              ],
+              "rows": [
+                [
+                  "Unmarked Identification／Address",
+                  "主要完成识别或称呼。",
+                  "ZN-P096-03-B Doug"
+                ],
+                [
+                  "Respectful／Status-elevating",
+                  "表达认可、礼貌或制度地位。",
+                  "ZN-P011-02 Officer Hopps"
+                ],
+                [
+                  "Familiar／Affectionate",
+                  "表达熟悉、亲近或关切。",
+                  "ZN-P057-01 Nicky，需结合语境"
+                ],
+                [
+                  "Diminutive／Patronizing",
+                  "把Target呈现为幼小、可爱或受支配。",
+                  "ZN-P018-04 poor little bunny"
+                ],
+                [
+                  "Disparaging／Devaluing",
+                  "贬低、侮辱或降低Target地位。",
+                  "ZN-P007-01 loser"
+                ],
+                [
+                  "Playful／Teasing",
+                  "以玩笑或逗弄方式定位Target。",
+                  "ZN-P089-01 Jude the Dude"
+                ],
+                [
+                  "Self-positioning",
+                  "Speaker安排自身身份或立场。",
+                  "ZN-P020-02 some ‘token’ bunny"
+                ],
+                [
+                  "Mixed／Unclear／Not Applicable",
+                  "两个处理同等突出、无法判断或No Overt。",
+                  "写note或跳过"
+                ]
+              ]
+            }
+          ],
+          "field_type": "controlled_single",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "tt_interactional_treatment",
+          "code": "L1.7",
+          "display_name": "L1.7 ★ TT Primary Interactional Treatment",
+          "definition_zh": "Speaker在TT当前话轮中通过naming expression采取的主要互动处理。",
+          "fill_zh": "依据普通话wording和局部语境独立判断。",
+          "options": [
+            "Unmarked Identification／Address",
+            "Respectful／Status-elevating",
+            "Familiar／Affectionate",
+            "Diminutive／Patronizing",
+            "Disparaging／Devaluing",
+            "Playful／Teasing",
+            "Self-positioning",
+            "Mixed／Unclear／Not Applicable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "treatment_note",
+          "code": "L1.7",
+          "display_name": "L1.7 Interactional Treatment Note",
+          "definition_zh": "解释Mixed、Unclear或关键边界。",
+          "fill_zh": "引用当前Host中的语言证据。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "coder",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "verbal_correspondence",
+          "code": "L1.8",
+          "display_name": "L1.8 ★ ST to TT Verbal Correspondence",
+          "definition_zh": "概括同一Event内ST和TT显性命名形式的总体对应关系。",
+          "fill_zh": "六个值处于同一比较层级，每个Event选择一个。",
+          "options": [
+            "Comparable Overt Naming",
+            "Reconfigured Overt Naming",
+            "ST-only Overt Naming",
+            "TT-only Overt Naming",
+            "Multiple Correspondences",
+            "Unclear／Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "correspondence_group_id",
+          "code": "L1.8",
+          "display_name": "L1.8 Correspondence Group ID",
+          "definition_zh": "连接一对多或多对一对应的多个Events。",
+          "fill_zh": "仅Multiple Correspondences时由System／Researcher填写。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "verbal_correspondence_note",
+          "code": "L1.8",
+          "display_name": "L1.8 Verbal Correspondence Note",
+          "definition_zh": "记录表达范围、Basis或Treatment的关键变化。",
+          "fill_zh": "只写可观察的对应，不提前写L5结果。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "coder",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        }
+      ]
+    },
+    {
+      "id": "L3",
+      "title_zh": "版本内多模态证据",
+      "fields": [
+        {
+          "id": "shared_visual_evidence_status",
+          "code": "L3.1",
+          "display_name": "L3.1 ★ Shared Visual Evidence Status",
+          "definition_zh": "共享画面中是否存在与当前Event相关的material visual cue。",
+          "fill_zh": "One or More要求至少一条Visual Record。",
+          "options": [
+            "One or More Material Visual Cues",
+            "No Material Visual Cue",
+            "Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "shared_visual_evidence_records",
+          "code": "L3.1",
+          "display_name": "L3.1 ★ Shared Visual Evidence Records",
+          "definition_zh": "可回到shared clip复核的视觉证据记录。",
+          "fill_zh": "每条Record写时间、cue type、可见对象和纯观察说明。cue_type可用：Appearance／Costume／Prop；Gaze／Facial Action；Gesture／Body Movement／Posture；Proxemics／Spatial Arrangement；Cinematography／Composition；Editing／Shot Relation；On-screen Text；Other。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "record_list",
+          "entry_role": "coder",
+          "required": false,
+          "core": true,
+          "record_fields": [
+            "visual_record_id",
+            "clip_local_span",
+            "cue_type",
+            "visible_participants_or_objects",
+            "observable_note"
+          ]
+        },
+        {
+          "id": "st_vocal_evidence_status",
+          "code": "L3.2",
+          "display_name": "L3.2 ★ ST Vocal Evidence Status",
+          "definition_zh": "ST是否存在达到记录门槛的salient vocal cue。",
+          "fill_zh": "One or More要求至少一条ST Vocal Record。",
+          "options": [
+            "One or More Salient Vocal Cues",
+            "No Salient Vocal Cue",
+            "Not Applicable No Overt",
+            "Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "st_vocal_evidence_records",
+          "code": "L3.2",
+          "display_name": "L3.2 ★ ST Vocal Evidence Records",
+          "definition_zh": "ST中相对local comparator可重复听辨的局部声音差异。",
+          "fill_zh": "每条Record只记录一个主要cue type：Intonation／Pitch Movement；Loudness Shift；Tempo／Lengthening；Pause／Boundary；Voice Quality；Articulation／Pronunciation；Non-lexical Vocalization；Other。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "record_list",
+          "entry_role": "coder",
+          "required": false,
+          "core": true,
+          "record_fields": [
+            "record_id",
+            "cue_type",
+            "target_span",
+            "clip_local_span",
+            "audible_observation",
+            "local_comparator"
+          ]
+        },
+        {
+          "id": "tt_vocal_evidence_status",
+          "code": "L3.3",
+          "display_name": "L3.3 ★ TT Vocal Evidence Status",
+          "definition_zh": "TT是否存在达到记录门槛的salient vocal cue。",
+          "fill_zh": "依据普通话听觉预期独立判断。",
+          "options": [
+            "One or More Salient Vocal Cues",
+            "No Salient Vocal Cue",
+            "Not Applicable No Overt",
+            "Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "tt_vocal_evidence_records",
+          "code": "L3.3",
+          "display_name": "L3.3 ★ TT Vocal Evidence Records",
+          "definition_zh": "TT中相对local comparator可重复听辨的局部声音差异。",
+          "fill_zh": "Record字段与ST完全平行。cue_type使用Intonation／Pitch Movement；Loudness Shift；Tempo／Lengthening；Pause／Boundary；Voice Quality；Articulation／Pronunciation；Non-lexical Vocalization；Other。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "record_list",
+          "entry_role": "coder",
+          "required": false,
+          "core": true,
+          "record_fields": [
+            "record_id",
+            "cue_type",
+            "target_span",
+            "clip_local_span",
+            "audible_observation",
+            "local_comparator"
+          ]
+        },
+        {
+          "id": "st_intermodal_status",
+          "code": "L3.4",
+          "display_name": "L3.4 ★ ST Intermodal Status",
+          "definition_zh": "ST是否存在围绕同一local claim的material跨模态关系。",
+          "fill_zh": "One or More要求至少一条Relation Record。",
+          "options": [
+            "One or More Material Relations",
+            "No Material Relation",
+            "Not Applicable",
+            "Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "st_intermodal_relation_records",
+          "code": "L3.4",
+          "display_name": "L3.4 ★ ST Intermodal Relation Records",
+          "definition_zh": "ST内两项或三项material components围绕同一local claim形成的关系。",
+          "fill_zh": "component_set选择Verbal＋Vocal、Verbal＋Visual、Vocal＋Visual或Verbal＋Vocal＋Visual；relation_type选择Reinforcement、Complementarity或Contradiction。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "record_list",
+          "entry_role": "coder",
+          "required": false,
+          "core": true,
+          "record_fields": [
+            "record_id",
+            "component_set",
+            "verbal_component",
+            "vocal_record_ids",
+            "visual_record_ids",
+            "local_claim",
+            "relation_type",
+            "evidence_note"
+          ]
+        },
+        {
+          "id": "tt_intermodal_status",
+          "code": "L3.4",
+          "display_name": "L3.4 ★ TT Intermodal Status",
+          "definition_zh": "TT是否存在围绕同一local claim的material跨模态关系。",
+          "fill_zh": "与ST使用相同Status规则。",
+          "options": [
+            "One or More Material Relations",
+            "No Material Relation",
+            "Not Applicable",
+            "Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "tt_intermodal_relation_records",
+          "code": "L3.4",
+          "display_name": "L3.4 ★ TT Intermodal Relation Records",
+          "definition_zh": "TT内两项或三项material components围绕同一local claim形成的关系。",
+          "fill_zh": "每条Record只处理一个local claim。component_set和relation_type使用与ST相同值域。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "record_list",
+          "entry_role": "coder",
+          "required": false,
+          "core": true,
+          "record_fields": [
+            "record_id",
+            "component_set",
+            "verbal_component",
+            "vocal_record_ids",
+            "visual_record_ids",
+            "local_claim",
+            "relation_type",
+            "evidence_note"
+          ]
+        },
+        {
+          "id": "normalized_st_onset",
+          "code": "L3.5",
+          "display_name": "L3.5 Normalized ST Onset",
+          "definition_zh": "ST onset除以共同clip时长。",
+          "fill_zh": "System计算，界面按百分比显示。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "decimal",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "normalized_st_offset",
+          "code": "L3.5",
+          "display_name": "L3.5 Normalized ST Offset",
+          "definition_zh": "ST offset除以共同clip时长。",
+          "fill_zh": "System计算。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "decimal",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "normalized_tt_onset",
+          "code": "L3.5",
+          "display_name": "L3.5 Normalized TT Onset",
+          "definition_zh": "TT onset除以共同clip时长。",
+          "fill_zh": "System计算。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "decimal",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "normalized_tt_offset",
+          "code": "L3.5",
+          "display_name": "L3.5 Normalized TT Offset",
+          "definition_zh": "TT offset除以共同clip时长。",
+          "fill_zh": "System计算。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "decimal",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "temporal_iou",
+          "code": "L3.5",
+          "display_name": "L3.5 Temporal IoU",
+          "definition_zh": "两个归一化naming spans的交集时长除以并集时长。",
+          "fill_zh": "System计算；只描述时间重合。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "decimal",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "temporal_comparability",
+          "code": "L3.5",
+          "display_name": "L3.5 Temporal Comparability",
+          "definition_zh": "两侧span是否满足比较条件。",
+          "fill_zh": "任一侧No Overt或片段不等长时选择Not Comparable。",
+          "options": [
+            "Comparable",
+            "Not Comparable",
+            "Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "tt_synchrony_status",
+          "code": "L3.6",
+          "display_name": "L3.6 ★ TT Noticeable Synchrony Mismatch Status",
+          "definition_zh": "TT naming span内是否存在可重复定位的明显同步错配。",
+          "fill_zh": "只记录Noticeable Mismatch；Fit不逐条建Record。",
+          "options": [
+            "One or More Noticeable Mismatches",
+            "No Noticeable Mismatch Observed",
+            "Not Applicable No Overt",
+            "Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "tt_synchrony_mismatch_records",
+          "code": "L3.6",
+          "display_name": "L3.6 ★ TT Synchrony Mismatch Records",
+          "definition_zh": "一条Record只分析一个synchrony dimension。",
+          "fill_zh": "dimension使用Lip／Phonetic Synchrony、Kinesic Synchrony或Isochrony；记录tt span、mismatch span和可重复观察的错位。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "record_list",
+          "entry_role": "coder",
+          "required": false,
+          "core": true,
+          "record_fields": [
+            "record_id",
+            "tt_expression_or_span",
+            "dimension",
+            "mismatch_span",
+            "observable_mismatch",
+            "evidence_note"
+          ]
+        },
+        {
+          "id": "acoustic_validation_status",
+          "code": "L3.7",
+          "display_name": "L3.7 Acoustic Validation Status",
+          "definition_zh": "Praat辅助核验的请求和完成状态。",
+          "fill_zh": "仅分歧、边界争议或论文重点案例使用；不显示在Coder页面。",
+          "options": [
+            "Not Requested",
+            "Requested",
+            "Completed Supportive",
+            "Completed Inconclusive",
+            "Not Feasible"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "acoustic_validation_method",
+          "code": "L3.7",
+          "display_name": "L3.7 Acoustic Validation Method",
+          "definition_zh": "记录Praat测量问题、参数和比较对象。",
+          "fill_zh": "Researcher填写。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "acoustic_validation_note",
+          "code": "L3.7",
+          "display_name": "L3.7 Acoustic Validation Note",
+          "definition_zh": "记录结果、限制和文件位置。",
+          "fill_zh": "不上传Praat截图到网页。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        }
+      ]
+    },
+    {
+      "id": "L4",
+      "title_zh": "版本内人物刻画功能",
+      "fields": [
+        {
+          "id": "st_characterizing_function_status",
+          "code": "L4.1",
+          "display_name": "L4.1 ★ ST Characterizing Function Status",
+          "definition_zh": "ST证据对局部人物／关系功能的支持状态。",
+          "fill_zh": "先读页面展示的已锁定L1–L3 cues，再选择Status。",
+          "options": [
+            "Supported Local Function",
+            "No Additional Local Characterizing Function",
+            "Insufficient Evidence",
+            "Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "st_characterizing_function",
+          "code": "L4.1",
+          "display_name": "L4.1 ★ ST Characterizing Function",
+          "definition_zh": "ST内由已记录证据许可的局部人物、身份、能力、品格、情感或关系呈现。",
+          "fill_zh": "填写一至两句，不写故事全局或跨版本变化。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "tt_characterizing_function_status",
+          "code": "L4.2",
+          "display_name": "L4.2 ★ TT Characterizing Function Status",
+          "definition_zh": "TT证据对局部人物／关系功能的支持状态。",
+          "fill_zh": "ST提交并锁定后显示。",
+          "options": [
+            "Supported Local Function",
+            "No Additional Local Characterizing Function",
+            "Insufficient Evidence",
+            "Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "tt_characterizing_function",
+          "code": "L4.2",
+          "display_name": "L4.2 ★ TT Characterizing Function",
+          "definition_zh": "TT内由已记录证据许可的局部人物、身份、能力、品格、情感或关系呈现。",
+          "fill_zh": "填写一至两句；依据TT本身证据。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "coder",
+          "required": true,
+          "core": true,
+          "record_fields": []
+        }
+      ]
+    },
+    {
+      "id": "L5",
+      "title_zh": "跨版本重构与结果",
+      "fields": [
+        {
+          "id": "derived_verbal_rendering_pattern",
+          "code": "L5.1",
+          "display_name": "L5.1 Derived Verbal Rendering Pattern",
+          "definition_zh": "System复制L1.8总体correspondence形成的派生模式。",
+          "fill_zh": "System生成，Researcher核验。",
+          "options": [
+            "Comparable Overt Naming",
+            "Reconfigured Overt Naming",
+            "ST-only Overt Naming",
+            "TT-only Overt Naming",
+            "Multiple Correspondences",
+            "Unclear／Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "derived_verbal_flags",
+          "code": "L5.1",
+          "display_name": "L5.1 Derived Verbal Flags",
+          "definition_zh": "由Naming Presence、Head、Expression、Basis和Treatment派生的细节flags。",
+          "fill_zh": "可多选；System生成，Researcher核验。",
+          "options": [
+            "Close Retention",
+            "Reformulation",
+            "Basis Shift",
+            "Treatment Shift",
+            "Expansion",
+            "Compression",
+            "De-naming",
+            "Omission",
+            "Addition",
+            "No flag"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_multi",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "intermodal_relation_change_records",
+          "code": "L5.2",
+          "display_name": "L5.2 Derived Intermodal Relation Change Records",
+          "definition_zh": "比较围绕可比local claim的ST／TT intermodal relation records。",
+          "fill_zh": "Researcher先配对，System比较relation type。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "record_list",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": [
+            "intermodal_pair_id",
+            "st_record_id",
+            "tt_record_id",
+            "intermodal_relation_change",
+            "note"
+          ]
+        },
+        {
+          "id": "characterizing_outcome_records",
+          "code": "L5.3",
+          "display_name": "L5.3 ★ Characterizing Outcome Records",
+          "definition_zh": "比较ST和TT中同一人物或关系local claim的局部Characterizing Function。",
+          "fill_zh": "一个Event有多个独立claims时建立多条Records。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "record_list",
+          "entry_role": "researcher",
+          "required": false,
+          "core": true,
+          "record_fields": [
+            "outcome_record_id",
+            "st_local_claim",
+            "tt_local_claim",
+            "characterizing_outcome_type"
+          ]
+        },
+        {
+          "id": "support_redistribution_records",
+          "code": "L5.4",
+          "display_name": "L5.4 ★ Support Redistribution Records",
+          "definition_zh": "记录同一local claim在ST和TT中的主要支持资源及迁移方向。",
+          "fill_zh": "用outcome_record_id连接L5.3。Redistributed或Mixed／Partial必须填from和to。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "record_list",
+          "entry_role": "researcher",
+          "required": false,
+          "core": true,
+          "record_fields": [
+            "outcome_record_id",
+            "st_material_support",
+            "tt_material_support",
+            "support_redistribution_status",
+            "support_from",
+            "support_to",
+            "support_redistribution_note"
+          ]
+        },
+        {
+          "id": "multimodal_outcome_summary",
+          "code": "L5.5",
+          "display_name": "L5.5 Multimodal Outcome Summary",
+          "definition_zh": "串联ST function、TT function、关键证据、Outcome和Support Redistribution。",
+          "fill_zh": "每个claim或Event写二至四句，并说明限制。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "evidence_sufficiency_gate",
+          "code": "L5.6",
+          "display_name": "L5.6 Evidence Sufficiency Gate",
+          "definition_zh": "Reviewer对claim配对、证据回链和结果可复核性的质量门。",
+          "fill_zh": "Revise必须填写revision targets和具体理由。",
+          "options": [
+            "Pass",
+            "Revise",
+            "Not Assessable"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "reviewer",
+          "required": false,
+          "core": true,
+          "record_fields": []
+        },
+        {
+          "id": "revision_targets",
+          "code": "L5.6",
+          "display_name": "L5.6 Revision Targets",
+          "definition_zh": "Reviewer要求返修的具体对象。",
+          "fill_zh": "可多选。",
+          "options": [
+            "Claim Pair",
+            "Evidence Link",
+            "Outcome",
+            "Summary",
+            "Other"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_multi",
+          "entry_role": "reviewer",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "reviewer_note",
+          "code": "L5.6",
+          "display_name": "L5.6 Reviewer Note",
+          "definition_zh": "Reviewer的可执行返修指令或材料缺口。",
+          "fill_zh": "使用append-only审核记录保存。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "reviewer",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        }
+      ]
+    },
+    {
+      "id": "L6",
+      "title_zh": "语料与叙事聚合",
+      "fields": [
+        {
+          "id": "naming_practice_cluster_id",
+          "code": "L6.1",
+          "display_name": "L6.1 Naming Practice Cluster ID",
+          "definition_zh": "跨多个Events反复出现或功能相关的命名形式cluster。",
+          "fill_zh": "Researcher在L5后建立。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "cluster_label",
+          "code": "L6.1",
+          "display_name": "L6.1 Cluster Label",
+          "definition_zh": "cluster的简明名称。",
+          "fill_zh": "Researcher填写。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "short_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "cluster_definition",
+          "code": "L6.1",
+          "display_name": "L6.1 Cluster Definition",
+          "definition_zh": "cluster的纳入和排除边界。",
+          "fill_zh": "Researcher填写。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "member_event_ids",
+          "code": "L6.1",
+          "display_name": "L6.1 Member Event IDs",
+          "definition_zh": "cluster包含的Event IDs。",
+          "fill_zh": "使用竖线分隔或结构化导出。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "narrative_phase_id",
+          "code": "L6.2",
+          "display_name": "L6.2 Narrative Phase",
+          "definition_zh": "按影片线性进程建立的固定时间区间。",
+          "fill_zh": "System依据时间戳赋值，Researcher核验。",
+          "options": [
+            "Childhood Prologue",
+            "Training and Institutional Entry",
+            "Initial Encounter and Case Formation",
+            "Investigation and Partnership",
+            "Public Crisis and Rupture",
+            "Repair and Resolution"
+          ],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "controlled_single",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "character_relation_thread",
+          "code": "L6.3",
+          "display_name": "L6.3 Character and Relationship Thread",
+          "definition_zh": "多个Events共同涉及的相对稳定人物或关系议题。",
+          "fill_zh": "Researcher在L5后建立并连接多个Event IDs。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "trajectory_summary",
+          "code": "L6.4",
+          "display_name": "L6.4 Trajectory Summary",
+          "definition_zh": "按时间顺序说明naming practice或人物／关系thread的发展、重复、反转或保持。",
+          "fill_zh": "Researcher综合，Reviewer复核。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "supporting_event_ids",
+          "code": "L6.4",
+          "display_name": "L6.4 Supporting Event IDs",
+          "definition_zh": "直接支持trajectory summary的Events。",
+          "fill_zh": "Researcher填写。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        },
+        {
+          "id": "counterevidence_event_ids",
+          "code": "L6.4",
+          "display_name": "L6.4 Counterevidence Event IDs",
+          "definition_zh": "限制或反驳trajectory summary的Events。",
+          "fill_zh": "Researcher填写，避免选择性证据。",
+          "options": [],
+          "theory_zh": "",
+          "value_guides": [],
+          "field_type": "long_text",
+          "entry_role": "researcher",
+          "required": false,
+          "core": false,
+          "record_fields": []
+        }
+      ]
+    }
+  ]
+}
