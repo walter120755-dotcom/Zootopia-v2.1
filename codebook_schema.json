@@ -1,8 +1,8 @@
 {
   "format": "zootopia-codebook-schema",
   "schema_name": "Zootopia Naming Practices Codebook",
-  "schema_version": "2.1-revised-pre-pilot",
-  "interface_version": "2.1-revised-pilot",
+  "schema_version": "2.1-revised-web-alignment-fix",
+  "interface_version": "2.1-web-alignment-fix",
   "analysis_scope": "英语原声与中国大陆普通话配音中的角色导向口语Naming Events。一个Event锚定一个可独立定位的naming expression occurrence。",
   "media_policy": "网页不加载视频、视频URL或Praat截图。Coder依据Shared AV Window在项目授权媒体中核验；Praat仅由Researcher按请求在网页外使用。",
   "field_contract": {
@@ -941,7 +941,57 @@
         "Unclear／Not Applicable"
       ],
       "theoretical_basis": "",
-      "value_guides": [],
+      "value_guides": [
+        {
+          "headers": [
+            "Value",
+            "定义／判定规则",
+            "语料示例"
+          ],
+          "rows": [
+            [
+              "Direct Address",
+              "直接呼叫或面向现场对象。",
+              "ZN-P021-01 狐狸！"
+            ],
+            [
+              "Referring NP as Subject",
+              "expression在分句中充当主语。",
+              "ZN-P005-04 兔子从来不当警察。"
+            ],
+            [
+              "Referring NP after Verb or Preposition",
+              "位于动词或介词之后并指明人物。",
+              "ZN-P022-01 给我的小儿子"
+            ],
+            [
+              "Subject–Label Statement",
+              "主语通过连接成分被归入身份或类别。",
+              "ZN-P007-03 我是只狐狸。取一只狐狸"
+            ],
+            [
+              "Appositive Naming Unit",
+              "同指命名短语后的补充名称或身份。",
+              "ZN-P020-01-B 朱迪警官"
+            ],
+            [
+              "Metalinguistic Mention",
+              "名称或标签位于命名、回忆、质疑或拒绝label的话语中。",
+              "ZN-P072-01-B 叫他大金毛"
+            ],
+            [
+              "Other",
+              "可稳定描述但不属于上述环境。",
+              "填写note"
+            ],
+            [
+              "Unclear／Not Applicable",
+              "两类竞争或该侧No Overt。",
+              "提交Reviewer或跳过"
+            ]
+          ]
+        }
+      ],
       "entry_role": "coder",
       "required_for_included_item": true,
       "analytical_level": "L1 L1.5",
@@ -1050,7 +1100,62 @@
         "Other／Unclear"
       ],
       "theoretical_basis": "",
-      "value_guides": [],
+      "value_guides": [
+        {
+          "headers": [
+            "Value",
+            "定义／判定规则",
+            "语料示例"
+          ],
+          "rows": [
+            [
+              "Personal Name",
+              "正式全名、姓或名。",
+              "ZN-P096-03-B 道格"
+            ],
+            [
+              "Nickname／Alias／Associative Name",
+              "亲昵变体、别名或联想性命名。",
+              "ZN-P057-01 尼克"
+            ],
+            [
+              "Institutional Title or Role",
+              "礼貌头衔、军警衔、职业或制度岗位。",
+              "ZN-P011-02 朱迪警官"
+            ],
+            [
+              "Kinship／Relational Role",
+              "亲属关系或双方关系角色。",
+              "ZN-P024-02-A 好爸爸"
+            ],
+            [
+              "Species／Biological Group",
+              "物种或生物群体。",
+              "ZN-P021-01 狐狸"
+            ],
+            [
+              "Social／Collective Category",
+              "社会群体或集体身份。",
+              "ZN-P020-02 TT为No Overt；参照其他Social／Collective Category事件"
+            ],
+            [
+              "Physical Attribute",
+              "以外形或身体特征形成head label。",
+              "ZN-P010-01 小不点儿"
+            ],
+            [
+              "Trait／Behaviour／Competence",
+              "以品格、行为或能力形成head label。",
+              "ZN-P007-01 兔崽子"
+            ],
+            [
+              "Other／Unclear",
+              "需要说明或无法稳定归类。",
+              "提交Reviewer"
+            ]
+          ]
+        }
+      ],
       "entry_role": "coder",
       "required_for_included_item": true,
       "analytical_level": "L1 L1.6",
@@ -1152,7 +1257,57 @@
         "Mixed／Unclear／Not Applicable"
       ],
       "theoretical_basis": "",
-      "value_guides": [],
+      "value_guides": [
+        {
+          "headers": [
+            "Value",
+            "定义／判定规则",
+            "语料示例"
+          ],
+          "rows": [
+            [
+              "Unmarked Identification／Address",
+              "主要完成识别或称呼。",
+              "ZN-P096-03-B 公羊道格"
+            ],
+            [
+              "Respectful／Status-elevating",
+              "表达认可、礼貌或制度地位。",
+              "ZN-P011-02 朱迪警官"
+            ],
+            [
+              "Familiar／Affectionate",
+              "表达熟悉、亲近或关切。",
+              "ZN-P057-01 尼克，需结合普通话语境"
+            ],
+            [
+              "Diminutive／Patronizing",
+              "把Target呈现为幼小、可爱或受支配。",
+              "ZN-P018-04 可怜的小兔子"
+            ],
+            [
+              "Disparaging／Devaluing",
+              "贬低、侮辱或降低Target地位。",
+              "ZN-P007-01 兔崽子"
+            ],
+            [
+              "Playful／Teasing",
+              "以玩笑或逗弄方式定位Target。",
+              "ZN-P089-01 朱迪嘟嘟"
+            ],
+            [
+              "Self-positioning",
+              "Speaker安排自身身份或立场。",
+              "ZN-P020-02 TT为No Overt，选择Not Applicable"
+            ],
+            [
+              "Mixed／Unclear／Not Applicable",
+              "两个处理同等突出、无法判断或No Overt。",
+              "写note或跳过"
+            ]
+          ]
+        }
+      ],
       "entry_role": "coder",
       "required_for_included_item": true,
       "analytical_level": "L1 L1.7",
@@ -1279,7 +1434,38 @@
         "cue_type",
         "visible_participants_or_objects",
         "observable_note"
-      ]
+      ],
+      "required_record_fields": [
+        "clip_local_span",
+        "cue_type",
+        "visible_participants_or_objects",
+        "observable_note"
+      ],
+      "record_column_types": {
+        "cue_type": "select"
+      },
+      "record_value_lists": {
+        "cue_type": [
+          "Appearance／Costume／Prop",
+          "Gaze／Facial Action",
+          "Gesture／Body Movement／Posture",
+          "Proxemics／Spatial Arrangement",
+          "Cinematography／Composition",
+          "Editing／Shot Relation",
+          "On-screen Text",
+          "Other"
+        ]
+      },
+      "disabled_record_fields": [
+        "visual_record_id"
+      ],
+      "record_example": {
+        "visual_record_id": "ZN-P011-02-VIS-01",
+        "clip_local_span": "00:00.00–00:02.00",
+        "cue_type": "Appearance／Costume／Prop",
+        "visible_participants_or_objects": "Judy；ZPD制服与徽章；毕业典礼空间",
+        "observable_note": "Judy身穿ZPD制服并佩戴徽章，画面持续呈现其正式警员外观。"
+      }
     },
     {
       "code": "L3.2",
@@ -1326,7 +1512,40 @@
         "clip_local_span",
         "audible_observation",
         "local_comparator"
-      ]
+      ],
+      "required_record_fields": [
+        "cue_type",
+        "target_span",
+        "clip_local_span",
+        "audible_observation",
+        "local_comparator"
+      ],
+      "record_column_types": {
+        "cue_type": "select"
+      },
+      "record_value_lists": {
+        "cue_type": [
+          "Intonation／Pitch Movement",
+          "Loudness Shift",
+          "Tempo／Lengthening",
+          "Pause／Boundary",
+          "Voice Quality",
+          "Articulation／Pronunciation",
+          "Non-lexical Vocalization",
+          "Other"
+        ]
+      },
+      "disabled_record_fields": [
+        "record_id"
+      ],
+      "record_example": {
+        "record_id": "System生成",
+        "cue_type": "Intonation／Pitch Movement",
+        "target_span": "Carrots",
+        "clip_local_span": "00:01.10–00:01.55",
+        "audible_observation": "第二次称名的局部调型相对第一次明显改变。",
+        "local_comparator": "同一话轮中的第一次称名"
+      }
     },
     {
       "code": "L3.3",
@@ -1373,7 +1592,40 @@
         "clip_local_span",
         "audible_observation",
         "local_comparator"
-      ]
+      ],
+      "required_record_fields": [
+        "cue_type",
+        "target_span",
+        "clip_local_span",
+        "audible_observation",
+        "local_comparator"
+      ],
+      "record_column_types": {
+        "cue_type": "select"
+      },
+      "record_value_lists": {
+        "cue_type": [
+          "Intonation／Pitch Movement",
+          "Loudness Shift",
+          "Tempo／Lengthening",
+          "Pause／Boundary",
+          "Voice Quality",
+          "Articulation／Pronunciation",
+          "Non-lexical Vocalization",
+          "Other"
+        ]
+      },
+      "disabled_record_fields": [
+        "record_id"
+      ],
+      "record_example": {
+        "record_id": "System生成",
+        "cue_type": "Intonation／Pitch Movement",
+        "target_span": "朱迪",
+        "clip_local_span": "00:01.10–00:01.55",
+        "audible_observation": "第二次称名的局部调型相对第一次明显改变。",
+        "local_comparator": "同一话轮中的第一次称名"
+      }
     },
     {
       "code": "L3.4",
@@ -1422,7 +1674,43 @@
         "local_claim",
         "relation_type",
         "evidence_note"
-      ]
+      ],
+      "required_record_fields": [
+        "component_set",
+        "local_claim",
+        "relation_type",
+        "evidence_note"
+      ],
+      "record_column_types": {
+        "component_set": "select",
+        "relation_type": "select"
+      },
+      "record_value_lists": {
+        "component_set": [
+          "Verbal＋Vocal",
+          "Verbal＋Visual",
+          "Vocal＋Visual",
+          "Verbal＋Vocal＋Visual"
+        ],
+        "relation_type": [
+          "Reinforcement",
+          "Complementarity",
+          "Contradiction"
+        ]
+      },
+      "disabled_record_fields": [
+        "record_id"
+      ],
+      "record_example": {
+        "record_id": "System生成",
+        "component_set": "Verbal＋Visual",
+        "verbal_component": "st_naming_expression=Officer Hopps",
+        "vocal_record_ids": "",
+        "visual_record_ids": "ZN-P011-02-VIS-01",
+        "local_claim": "Judy在毕业互动中获得正式警员身份认可",
+        "relation_type": "Reinforcement",
+        "evidence_note": "称名标明制度身份；制服、徽章和毕业典礼画面提供同向支持。"
+      }
     },
     {
       "code": "L3.4",
@@ -1471,7 +1759,43 @@
         "local_claim",
         "relation_type",
         "evidence_note"
-      ]
+      ],
+      "required_record_fields": [
+        "component_set",
+        "local_claim",
+        "relation_type",
+        "evidence_note"
+      ],
+      "record_column_types": {
+        "component_set": "select",
+        "relation_type": "select"
+      },
+      "record_value_lists": {
+        "component_set": [
+          "Verbal＋Vocal",
+          "Verbal＋Visual",
+          "Vocal＋Visual",
+          "Verbal＋Vocal＋Visual"
+        ],
+        "relation_type": [
+          "Reinforcement",
+          "Complementarity",
+          "Contradiction"
+        ]
+      },
+      "disabled_record_fields": [
+        "record_id"
+      ],
+      "record_example": {
+        "record_id": "System生成",
+        "component_set": "Verbal＋Visual",
+        "verbal_component": "tt_naming_expression=朱迪警官",
+        "vocal_record_ids": "",
+        "visual_record_ids": "ZN-P011-02-VIS-01",
+        "local_claim": "Judy在毕业互动中获得正式警员身份认可",
+        "relation_type": "Reinforcement",
+        "evidence_note": "称名标明制度身份；制服、徽章和毕业典礼画面提供同向支持。"
+      }
     },
     {
       "code": "L3.5",
@@ -1481,7 +1805,24 @@
       "decision_rule": "System计算，界面按百分比显示。",
       "full_value_list": [],
       "theoretical_basis": "",
-      "value_guides": [],
+      "value_guides": [
+        {
+          "headers": [
+            "共同clip",
+            "ST span",
+            "TT span",
+            "结果"
+          ],
+          "rows": [
+            [
+              "3.00秒",
+              "0.18–0.84秒",
+              "0.42–1.17秒",
+              "ST=6%–28%；TT=14%–39%；Temporal IoU=42.4%"
+            ]
+          ]
+        }
+      ],
       "entry_role": "researcher",
       "required_for_included_item": false,
       "analytical_level": "L3 L3.5",
@@ -1624,7 +1965,35 @@
         "mismatch_span",
         "observable_mismatch",
         "evidence_note"
-      ]
+      ],
+      "required_record_fields": [
+        "tt_expression_or_span",
+        "dimension",
+        "mismatch_span",
+        "observable_mismatch",
+        "evidence_note"
+      ],
+      "record_column_types": {
+        "dimension": "select"
+      },
+      "record_value_lists": {
+        "dimension": [
+          "Lip／Phonetic Synchrony",
+          "Kinesic Synchrony",
+          "Isochrony"
+        ]
+      },
+      "disabled_record_fields": [
+        "record_id"
+      ],
+      "record_example": {
+        "record_id": "System生成",
+        "tt_expression_or_span": "朱迪警官；00:00.82–00:01.47",
+        "dimension": "Lip／Phonetic Synchrony",
+        "mismatch_span": "00:01.24–00:01.47",
+        "observable_mismatch": "可见口部已闭合，TT称名尾部仍持续发声。",
+        "evidence_note": "错配局限在当前TT naming expression内，可在同一画面位置重复核验。"
+      }
     },
     {
       "code": "L3.7",
@@ -1696,7 +2065,27 @@
         "Not Assessable"
       ],
       "theoretical_basis": "",
-      "value_guides": [],
+      "value_guides": [
+        {
+          "headers": [
+            "Event",
+            "可接受的局部写法",
+            "边界"
+          ],
+          "rows": [
+            [
+              "ZN-P011-02 Officer Hopps",
+              "该称呼承认Judy刚取得的警员身份，并在毕业互动中给予正式制度定位。",
+              "不写整部影片的人物成长"
+            ],
+            [
+              "ZN-P007-01 loser",
+              "该直接称呼在欺凌场景中贬低幼年Judy，并强化不对等位置。",
+              "不推广为群体本质"
+            ]
+          ]
+        }
+      ],
       "entry_role": "coder",
       "required_for_included_item": true,
       "analytical_level": "L4 L4.1",
@@ -1735,7 +2124,22 @@
         "Not Assessable"
       ],
       "theoretical_basis": "",
-      "value_guides": [],
+      "value_guides": [
+        {
+          "headers": [
+            "Event",
+            "可接受的局部写法",
+            "边界"
+          ],
+          "rows": [
+            [
+              "ZN-P011-02 朱迪警官",
+              "该普通话称呼承认Judy的警员身份；结合TT声音与共享画面说明当前互动效果。",
+              "独立依据TT证据，不提前比较ST"
+            ]
+          ]
+        }
+      ],
       "entry_role": "coder",
       "required_for_included_item": true,
       "analytical_level": "L4 L4.2",
@@ -1835,7 +2239,33 @@
         "tt_record_id",
         "intermodal_relation_change",
         "note"
-      ]
+      ],
+      "required_record_fields": [
+        "intermodal_relation_change"
+      ],
+      "record_column_types": {
+        "intermodal_relation_change": "select"
+      },
+      "record_value_lists": {
+        "intermodal_relation_change": [
+          "Retained",
+          "Changed",
+          "ST Relation Not Maintained",
+          "New TT Relation",
+          "No Comparable Pair",
+          "Unclear／Not Assessable"
+        ]
+      },
+      "disabled_record_fields": [
+        "intermodal_pair_id"
+      ],
+      "record_example": {
+        "intermodal_pair_id": "System生成",
+        "st_record_id": "ZN-P011-02-ST-IM-01",
+        "tt_record_id": "ZN-P011-02-TT-IM-01",
+        "intermodal_relation_change": "Retained",
+        "note": "两侧记录围绕同一local claim，relation type均为Reinforcement。"
+      }
     },
     {
       "code": "L5.3",
@@ -1858,7 +2288,36 @@
         "st_local_claim",
         "tt_local_claim",
         "characterizing_outcome_type"
-      ]
+      ],
+      "required_record_fields": [
+        "st_local_claim",
+        "tt_local_claim",
+        "characterizing_outcome_type"
+      ],
+      "record_column_types": {
+        "characterizing_outcome_type": "select"
+      },
+      "record_value_lists": {
+        "characterizing_outcome_type": [
+          "Broadly Equivalent",
+          "Intensified",
+          "Attenuated",
+          "Neutralized／Lost",
+          "Qualitatively Shifted",
+          "Newly Introduced",
+          "Mixed",
+          "Unclear／Not Comparable／Not Assessable"
+        ]
+      },
+      "disabled_record_fields": [
+        "outcome_record_id"
+      ],
+      "record_example": {
+        "outcome_record_id": "System生成",
+        "st_local_claim": "Officer Hopps承认Judy的正式警员身份。",
+        "tt_local_claim": "朱迪警官承认Judy的正式警员身份。",
+        "characterizing_outcome_type": "Broadly Equivalent"
+      }
     },
     {
       "code": "L5.4",
@@ -1884,7 +2343,79 @@
         "support_from",
         "support_to",
         "support_redistribution_note"
-      ]
+      ],
+      "required_record_fields": [
+        "outcome_record_id",
+        "st_material_support",
+        "tt_material_support",
+        "support_redistribution_status"
+      ],
+      "record_column_types": {
+        "support_redistribution_status": "select",
+        "st_material_support": "multiselect",
+        "tt_material_support": "multiselect",
+        "support_from": "multiselect",
+        "support_to": "multiselect"
+      },
+      "record_value_lists": {
+        "support_redistribution_status": [
+          "No Major Redistribution",
+          "Redistributed",
+          "Mixed／Partial",
+          "Not Applicable",
+          "Unclear／Not Assessable"
+        ],
+        "st_material_support": [
+          "Naming Expression",
+          "Characterizing Co-text",
+          "Vocal Evidence",
+          "Shared Visual Evidence",
+          "Intermodal Configuration",
+          "Synchrony Context"
+        ],
+        "tt_material_support": [
+          "Naming Expression",
+          "Characterizing Co-text",
+          "Vocal Evidence",
+          "Shared Visual Evidence",
+          "Intermodal Configuration",
+          "Synchrony Context"
+        ],
+        "support_from": [
+          "Naming Expression",
+          "Characterizing Co-text",
+          "Vocal Evidence",
+          "Shared Visual Evidence",
+          "Intermodal Configuration",
+          "Synchrony Context"
+        ],
+        "support_to": [
+          "Naming Expression",
+          "Characterizing Co-text",
+          "Vocal Evidence",
+          "Shared Visual Evidence",
+          "Intermodal Configuration",
+          "Synchrony Context"
+        ]
+      },
+      "disabled_record_fields": [],
+      "record_example": {
+        "outcome_record_id": "ZN-P020-02-OUT-01",
+        "st_material_support": [
+          "Naming Expression"
+        ],
+        "tt_material_support": [
+          "Characterizing Co-text"
+        ],
+        "support_redistribution_status": "Redistributed",
+        "support_from": [
+          "Naming Expression"
+        ],
+        "support_to": [
+          "Characterizing Co-text"
+        ],
+        "support_redistribution_note": "可比claim从ST称名短语转移到TT完整Host wording。"
+      }
     },
     {
       "code": "L5.5",
@@ -2124,5 +2655,11 @@
       "reliability_eligible": false,
       "core_field": false
     }
-  ]
+  ],
+  "workflow_contract": {
+    "candidate_gate": "Only Included events enter L1, L3, and L4.",
+    "version_order": "ST L1/L3 is saved and locked before TT L1/L3 is displayed.",
+    "function_order": "ST L4 is saved and locked before TT L4 is displayed.",
+    "researcher_gate": "L5 is completed from a selected Coder record after both L4 sides are locked."
+  }
 }

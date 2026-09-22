@@ -51,6 +51,7 @@ if self_review:
     st.error("Reviewer不得审核自己的annotation。请切换人员ID。")
 
 evidence_field = field_map(st.session_state["schema"])["evidence_sufficiency_gate"]
+revision_targets_field = field_map(st.session_state["schema"])["revision_targets"]
 with st.form(f"review_form__{coder_id}__{event_id}"):
     decision = st.segmented_control(
         "审核决定",
@@ -63,12 +64,10 @@ with st.form(f"review_form__{coder_id}__{event_id}"):
         [""] + evidence_field["full_value_list"],
         help=evidence_field["definition"] + "\n\n" + evidence_field["decision_rule"],
     )
-    flags = st.multiselect(
-        "问题类型",
-        [
-            "Evidence mismatch", "Boundary violation", "Missing field", "Internal inconsistency",
-            "Media not assessable", "Rule/source issue", "Low confidence", "Other",
-        ],
+    revision_targets = st.multiselect(
+        revision_targets_field["display_name"],
+        revision_targets_field["full_value_list"],
+        help=revision_targets_field["definition"] + "\n\n" + revision_targets_field["decision_rule"],
     )
     note = st.text_area("审核意见／修改指令", height=120)
     adjudicated_value = st.text_area("裁决值（仅Escalate后由Researcher填写）", height=80)
@@ -82,6 +81,10 @@ with st.form(f"review_form__{coder_id}__{event_id}"):
 if submitted:
     if not evidence_sufficiency_gate:
         st.error("必须填写Evidence Sufficiency Gate。")
+    elif evidence_sufficiency_gate == "Revise" and not revision_targets:
+        st.error("Evidence Sufficiency Gate为Revise时，必须选择Revision Targets。")
+    elif evidence_sufficiency_gate in {"Revise", "Not Assessable"} and not note.strip():
+        st.error("Revise或Not Assessable必须填写可执行的审核说明。")
     else:
         action_id = f"REV-{uuid4().hex[:12]}"
         st.session_state["reviews"][action_id] = {
@@ -92,7 +95,7 @@ if submitted:
             "reviewed_at": datetime.now(timezone.utc).isoformat(),
             "review_decision": decision,
             "evidence_sufficiency_gate": evidence_sufficiency_gate,
-            "review_flags": flags,
+            "revision_targets": revision_targets,
             "review_note": note,
             "adjudicated_value": adjudicated_value,
             "codebook_version": st.session_state["schema"]["schema_version"],

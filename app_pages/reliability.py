@@ -5,7 +5,7 @@ from utils.core import compare_coders, csv_bytes
 
 
 st.title("双人标注一致性")
-st.caption("上传两份独立 Coder CSV。多选字段按规范化后的整组标签进行 exact-set comparison。")
+st.caption("上传两份独立Coder CSV。页面按字段类型计算名义分类、多选集合与时间span的一致性指标。")
 
 left_file = st.file_uploader("Coder 1 CSV", type=["csv"], key="rel_left")
 right_file = st.file_uploader("Coder 2 CSV", type=["csv"], key="rel_right")
@@ -18,7 +18,7 @@ if left_file and right_file and fields:
     try:
         left = pd.read_csv(left_file, dtype=str).fillna("")
         right = pd.read_csv(right_file, dtype=str).fillna("")
-        summary, disagreements = compare_coders(left, right, fields)
+        summary, disagreements = compare_coders(left, right, fields, schema=schema)
         if summary.empty:
             st.warning("文件中没有找到所选字段。")
         else:
@@ -29,6 +29,9 @@ if left_file and right_file and fields:
                 column_config={
                     "percent_agreement": st.column_config.NumberColumn("Percent agreement", format="percent"),
                     "cohen_kappa": st.column_config.NumberColumn("Cohen's κ", format="%.3f"),
+                    "mean_jaccard": st.column_config.NumberColumn("Mean Jaccard", format="%.3f"),
+                    "mean_set_f1": st.column_config.NumberColumn("Mean set F1", format="%.3f"),
+                    "mean_span_iou": st.column_config.NumberColumn("Mean span IoU", format="%.3f"),
                 },
             )
             with st.container(horizontal=True):
@@ -44,4 +47,8 @@ if left_file and right_file and fields:
         st.error(f"无法比较：{exc}")
 
 with st.expander("如何解释结果", icon=":material/info:"):
-    st.write("Percent agreement 用于直观检查；Cohen's κ 校正偶然一致。低频、极度偏斜或开放文本字段不宜机械追求 κ。先审查分歧清单与规则，再决定修订 codebook 或培训，不要只优化数字。")
+    st.write(
+        "单选名义字段报告Percent agreement与Cohen's κ；多选字段同时报告Jaccard与set F1；"
+        "Naming span报告时间IoU。开放文本字段以分歧定位为主。低频或极度偏斜字段不宜机械追求κ，"
+        "应结合分歧清单、规则适切性与培训记录解释。"
+    )

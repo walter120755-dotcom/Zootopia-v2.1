@@ -1,18 +1,18 @@
 {
   "title": "《疯狂动物城》命名实践编码手册",
-  "version": "2.1 Revised Pre-pilot",
-  "codebook_version": "2.1-revised-pre-pilot",
+  "version": "2.1 Revised · Web Alignment Fix",
+  "codebook_version": "2.1-revised-web-alignment-fix",
   "scope": "英语原声与中国大陆普通话配音中的角色导向口语Naming Events。一个Event锚定一个可独立定位的naming expression occurrence。",
   "media_policy": "网页不加载视频、视频URL或Praat截图。Coder依据Shared AV Window在项目授权媒体中核验；Praat仅由Researcher按请求在网页外使用。",
   "field_count": 92,
   "quick_start": {
     "minimum_unit": "一条Naming Event是一条多模态数据库记录，以一个可独立定位的naming expression occurrence为锚点，并绑定ST／TT语言、共享片段、参与者、版本内证据和跨版本结果。",
-    "workflow": "Researcher预建Event并预填元数据 → Coder核验纳入和L0／L1 → 记录L3 → 完成并锁定ST L4 → 完成TT L4 → Researcher完成L5／L6 → Reviewer审核。",
+    "workflow": "Researcher预建Event并预填元数据 → Coder完成L0纳入核验 → Included Event完成并锁定ST L1／L3 → 开放并锁定TT L1／L3 → 完成并锁定ST L4 → 完成TT L4 → Researcher选择Coder记录完成L5／L6 → Reviewer审核。",
     "roles": {
       "Coder": "核验预建Event，完成红色必填字段和结构化Evidence Records。",
       "Reviewer": "处理边界与分类分歧，复查证据回链和L5质量门；不得审核自己的标注。",
       "Researcher": "维护候选语料、来源、派生字段、L5和L6。",
-      "System": "生成Event ID、计算时长与Temporal IoU，并保存版本和时间戳。"
+      "System": "生成Event与Record ID，计算Clip Duration和Temporal IoU，提出L5派生建议，并保存版本信息。"
     }
   },
   "levels": [
@@ -33,7 +33,8 @@
           "entry_role": "system",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "source_candidate_id",
@@ -48,7 +49,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "candidate_version_origin",
@@ -92,7 +94,8 @@
           "entry_role": "coder_verification",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "inclusion_status",
@@ -136,7 +139,8 @@
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "exclusion_reason",
@@ -160,7 +164,8 @@
           "entry_role": "coder",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "exclusion_note",
@@ -175,7 +180,8 @@
           "entry_role": "coder",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "speaker",
@@ -190,7 +196,8 @@
           "entry_role": "coder_verification",
           "required": true,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "target",
@@ -205,7 +212,8 @@
           "entry_role": "coder_verification",
           "required": true,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "addressee",
@@ -220,7 +228,8 @@
           "entry_role": "coder_verification",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "target_cardinality",
@@ -240,7 +249,8 @@
           "entry_role": "coder_verification",
           "required": true,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "shared_av_window_start",
@@ -255,7 +265,8 @@
           "entry_role": "coder_verification",
           "required": true,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "shared_av_window_end",
@@ -270,7 +281,8 @@
           "entry_role": "coder_verification",
           "required": true,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "clip_duration",
@@ -285,7 +297,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "av_window_verification",
@@ -305,7 +318,8 @@
           "entry_role": "coder_verification",
           "required": true,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "source_file_st",
@@ -320,7 +334,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "source_location_st",
@@ -335,7 +350,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "source_file_tt",
@@ -350,7 +366,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "source_location_tt",
@@ -365,7 +382,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "source_alignment_status",
@@ -384,7 +402,8 @@
           "entry_role": "coder_verification",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "source_verification_status",
@@ -405,7 +424,8 @@
           "entry_role": "coder_verification",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "source_note",
@@ -420,7 +440,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         }
       ]
     },
@@ -441,7 +462,8 @@
           "entry_role": "coder_verification",
           "required": true,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "tt_host_utterance",
@@ -456,7 +478,8 @@
           "entry_role": "coder_verification",
           "required": true,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "host_verification",
@@ -477,7 +500,8 @@
           "entry_role": "coder_verification",
           "required": true,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "st_naming_presence",
@@ -497,7 +521,8 @@
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "tt_naming_presence",
@@ -517,7 +542,8 @@
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "st_naming_head",
@@ -532,7 +558,8 @@
           "entry_role": "coder_verification",
           "required": true,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "tt_naming_head",
@@ -547,7 +574,8 @@
           "entry_role": "coder_verification",
           "required": true,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "st_naming_expression",
@@ -562,7 +590,8 @@
           "entry_role": "coder_verification",
           "required": true,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "tt_naming_expression",
@@ -577,7 +606,8 @@
           "entry_role": "coder_verification",
           "required": true,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "st_text_span",
@@ -592,7 +622,8 @@
           "entry_role": "coder_verification",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "tt_text_span",
@@ -607,7 +638,8 @@
           "entry_role": "coder_verification",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "st_naming_onset",
@@ -622,7 +654,8 @@
           "entry_role": "coder_verification",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "st_naming_offset",
@@ -637,7 +670,8 @@
           "entry_role": "coder_verification",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "tt_naming_onset",
@@ -652,7 +686,8 @@
           "entry_role": "coder_verification",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "tt_naming_offset",
@@ -667,7 +702,8 @@
           "entry_role": "coder_verification",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "st_characterizing_cotext",
@@ -682,7 +718,8 @@
           "entry_role": "coder_verification",
           "required": true,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "tt_characterizing_cotext",
@@ -697,7 +734,8 @@
           "entry_role": "coder_verification",
           "required": true,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "cotext_verification",
@@ -717,7 +755,8 @@
           "entry_role": "coder_verification",
           "required": true,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "st_realization_environment",
@@ -791,7 +830,8 @@
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "tt_realization_environment",
@@ -810,12 +850,63 @@
             "Unclear／Not Applicable"
           ],
           "theory_zh": "",
-          "value_guides": [],
+          "value_guides": [
+            {
+              "headers": [
+                "Value",
+                "定义／判定规则",
+                "语料示例"
+              ],
+              "rows": [
+                [
+                  "Direct Address",
+                  "直接呼叫或面向现场对象。",
+                  "ZN-P021-01 狐狸！"
+                ],
+                [
+                  "Referring NP as Subject",
+                  "expression在分句中充当主语。",
+                  "ZN-P005-04 兔子从来不当警察。"
+                ],
+                [
+                  "Referring NP after Verb or Preposition",
+                  "位于动词或介词之后并指明人物。",
+                  "ZN-P022-01 给我的小儿子"
+                ],
+                [
+                  "Subject–Label Statement",
+                  "主语通过连接成分被归入身份或类别。",
+                  "ZN-P007-03 我是只狐狸。取一只狐狸"
+                ],
+                [
+                  "Appositive Naming Unit",
+                  "同指命名短语后的补充名称或身份。",
+                  "ZN-P020-01-B 朱迪警官"
+                ],
+                [
+                  "Metalinguistic Mention",
+                  "名称或标签位于命名、回忆、质疑或拒绝label的话语中。",
+                  "ZN-P072-01-B 叫他大金毛"
+                ],
+                [
+                  "Other",
+                  "可稳定描述但不属于上述环境。",
+                  "填写note"
+                ],
+                [
+                  "Unclear／Not Applicable",
+                  "两类竞争或该侧No Overt。",
+                  "提交Reviewer或跳过"
+                ]
+              ]
+            }
+          ],
           "field_type": "controlled_single",
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "st_naming_bases",
@@ -895,7 +986,8 @@
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "tt_naming_bases",
@@ -915,12 +1007,68 @@
             "Other／Unclear"
           ],
           "theory_zh": "",
-          "value_guides": [],
+          "value_guides": [
+            {
+              "headers": [
+                "Value",
+                "定义／判定规则",
+                "语料示例"
+              ],
+              "rows": [
+                [
+                  "Personal Name",
+                  "正式全名、姓或名。",
+                  "ZN-P096-03-B 道格"
+                ],
+                [
+                  "Nickname／Alias／Associative Name",
+                  "亲昵变体、别名或联想性命名。",
+                  "ZN-P057-01 尼克"
+                ],
+                [
+                  "Institutional Title or Role",
+                  "礼貌头衔、军警衔、职业或制度岗位。",
+                  "ZN-P011-02 朱迪警官"
+                ],
+                [
+                  "Kinship／Relational Role",
+                  "亲属关系或双方关系角色。",
+                  "ZN-P024-02-A 好爸爸"
+                ],
+                [
+                  "Species／Biological Group",
+                  "物种或生物群体。",
+                  "ZN-P021-01 狐狸"
+                ],
+                [
+                  "Social／Collective Category",
+                  "社会群体或集体身份。",
+                  "ZN-P020-02 TT为No Overt；参照其他Social／Collective Category事件"
+                ],
+                [
+                  "Physical Attribute",
+                  "以外形或身体特征形成head label。",
+                  "ZN-P010-01 小不点儿"
+                ],
+                [
+                  "Trait／Behaviour／Competence",
+                  "以品格、行为或能力形成head label。",
+                  "ZN-P007-01 兔崽子"
+                ],
+                [
+                  "Other／Unclear",
+                  "需要说明或无法稳定归类。",
+                  "提交Reviewer"
+                ]
+              ]
+            }
+          ],
           "field_type": "controlled_multi",
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "st_interactional_treatment",
@@ -994,7 +1142,8 @@
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "tt_interactional_treatment",
@@ -1013,12 +1162,63 @@
             "Mixed／Unclear／Not Applicable"
           ],
           "theory_zh": "",
-          "value_guides": [],
+          "value_guides": [
+            {
+              "headers": [
+                "Value",
+                "定义／判定规则",
+                "语料示例"
+              ],
+              "rows": [
+                [
+                  "Unmarked Identification／Address",
+                  "主要完成识别或称呼。",
+                  "ZN-P096-03-B 公羊道格"
+                ],
+                [
+                  "Respectful／Status-elevating",
+                  "表达认可、礼貌或制度地位。",
+                  "ZN-P011-02 朱迪警官"
+                ],
+                [
+                  "Familiar／Affectionate",
+                  "表达熟悉、亲近或关切。",
+                  "ZN-P057-01 尼克，需结合普通话语境"
+                ],
+                [
+                  "Diminutive／Patronizing",
+                  "把Target呈现为幼小、可爱或受支配。",
+                  "ZN-P018-04 可怜的小兔子"
+                ],
+                [
+                  "Disparaging／Devaluing",
+                  "贬低、侮辱或降低Target地位。",
+                  "ZN-P007-01 兔崽子"
+                ],
+                [
+                  "Playful／Teasing",
+                  "以玩笑或逗弄方式定位Target。",
+                  "ZN-P089-01 朱迪嘟嘟"
+                ],
+                [
+                  "Self-positioning",
+                  "Speaker安排自身身份或立场。",
+                  "ZN-P020-02 TT为No Overt，选择Not Applicable"
+                ],
+                [
+                  "Mixed／Unclear／Not Applicable",
+                  "两个处理同等突出、无法判断或No Overt。",
+                  "写note或跳过"
+                ]
+              ]
+            }
+          ],
           "field_type": "controlled_single",
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "treatment_note",
@@ -1033,7 +1233,8 @@
           "entry_role": "coder",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "verbal_correspondence",
@@ -1055,7 +1256,8 @@
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "correspondence_group_id",
@@ -1070,7 +1272,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "verbal_correspondence_note",
@@ -1085,7 +1288,8 @@
           "entry_role": "coder",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         }
       ]
     },
@@ -1110,7 +1314,8 @@
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "shared_visual_evidence_records",
@@ -1131,7 +1336,14 @@
             "cue_type",
             "visible_participants_or_objects",
             "observable_note"
-          ]
+          ],
+          "record_example": {
+            "visual_record_id": "ZN-P011-02-VIS-01",
+            "clip_local_span": "00:00.00–00:02.00",
+            "cue_type": "Appearance／Costume／Prop",
+            "visible_participants_or_objects": "Judy；ZPD制服与徽章；毕业典礼空间",
+            "observable_note": "Judy身穿ZPD制服并佩戴徽章，画面持续呈现其正式警员外观。"
+          }
         },
         {
           "id": "st_vocal_evidence_status",
@@ -1151,7 +1363,8 @@
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "st_vocal_evidence_records",
@@ -1173,7 +1386,15 @@
             "clip_local_span",
             "audible_observation",
             "local_comparator"
-          ]
+          ],
+          "record_example": {
+            "record_id": "System生成",
+            "cue_type": "Intonation／Pitch Movement",
+            "target_span": "Carrots",
+            "clip_local_span": "00:01.10–00:01.55",
+            "audible_observation": "第二次称名的局部调型相对第一次明显改变。",
+            "local_comparator": "同一话轮中的第一次称名"
+          }
         },
         {
           "id": "tt_vocal_evidence_status",
@@ -1193,7 +1414,8 @@
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "tt_vocal_evidence_records",
@@ -1215,7 +1437,15 @@
             "clip_local_span",
             "audible_observation",
             "local_comparator"
-          ]
+          ],
+          "record_example": {
+            "record_id": "System生成",
+            "cue_type": "Intonation／Pitch Movement",
+            "target_span": "朱迪",
+            "clip_local_span": "00:01.10–00:01.55",
+            "audible_observation": "第二次称名的局部调型相对第一次明显改变。",
+            "local_comparator": "同一话轮中的第一次称名"
+          }
         },
         {
           "id": "st_intermodal_status",
@@ -1235,7 +1465,8 @@
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "st_intermodal_relation_records",
@@ -1259,7 +1490,17 @@
             "local_claim",
             "relation_type",
             "evidence_note"
-          ]
+          ],
+          "record_example": {
+            "record_id": "System生成",
+            "component_set": "Verbal＋Visual",
+            "verbal_component": "st_naming_expression=Officer Hopps",
+            "vocal_record_ids": "",
+            "visual_record_ids": "ZN-P011-02-VIS-01",
+            "local_claim": "Judy在毕业互动中获得正式警员身份认可",
+            "relation_type": "Reinforcement",
+            "evidence_note": "称名标明制度身份；制服、徽章和毕业典礼画面提供同向支持。"
+          }
         },
         {
           "id": "tt_intermodal_status",
@@ -1279,7 +1520,8 @@
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "tt_intermodal_relation_records",
@@ -1303,7 +1545,17 @@
             "local_claim",
             "relation_type",
             "evidence_note"
-          ]
+          ],
+          "record_example": {
+            "record_id": "System生成",
+            "component_set": "Verbal＋Visual",
+            "verbal_component": "tt_naming_expression=朱迪警官",
+            "vocal_record_ids": "",
+            "visual_record_ids": "ZN-P011-02-VIS-01",
+            "local_claim": "Judy在毕业互动中获得正式警员身份认可",
+            "relation_type": "Reinforcement",
+            "evidence_note": "称名标明制度身份；制服、徽章和毕业典礼画面提供同向支持。"
+          }
         },
         {
           "id": "normalized_st_onset",
@@ -1313,12 +1565,30 @@
           "fill_zh": "System计算，界面按百分比显示。",
           "options": [],
           "theory_zh": "",
-          "value_guides": [],
+          "value_guides": [
+            {
+              "headers": [
+                "共同clip",
+                "ST span",
+                "TT span",
+                "结果"
+              ],
+              "rows": [
+                [
+                  "3.00秒",
+                  "0.18–0.84秒",
+                  "0.42–1.17秒",
+                  "ST=6%–28%；TT=14%–39%；Temporal IoU=42.4%"
+                ]
+              ]
+            }
+          ],
           "field_type": "decimal",
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "normalized_st_offset",
@@ -1333,7 +1603,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "normalized_tt_onset",
@@ -1348,7 +1619,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "normalized_tt_offset",
@@ -1363,7 +1635,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "temporal_iou",
@@ -1378,7 +1651,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "temporal_comparability",
@@ -1397,7 +1671,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "tt_synchrony_status",
@@ -1417,7 +1692,8 @@
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "tt_synchrony_mismatch_records",
@@ -1439,7 +1715,15 @@
             "mismatch_span",
             "observable_mismatch",
             "evidence_note"
-          ]
+          ],
+          "record_example": {
+            "record_id": "System生成",
+            "tt_expression_or_span": "朱迪警官；00:00.82–00:01.47",
+            "dimension": "Lip／Phonetic Synchrony",
+            "mismatch_span": "00:01.24–00:01.47",
+            "observable_mismatch": "可见口部已闭合，TT称名尾部仍持续发声。",
+            "evidence_note": "错配局限在当前TT naming expression内，可在同一画面位置重复核验。"
+          }
         },
         {
           "id": "acoustic_validation_status",
@@ -1460,7 +1744,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "acoustic_validation_method",
@@ -1475,7 +1760,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "acoustic_validation_note",
@@ -1490,7 +1776,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         }
       ]
     },
@@ -1511,12 +1798,33 @@
             "Not Assessable"
           ],
           "theory_zh": "",
-          "value_guides": [],
+          "value_guides": [
+            {
+              "headers": [
+                "Event",
+                "可接受的局部写法",
+                "边界"
+              ],
+              "rows": [
+                [
+                  "ZN-P011-02 Officer Hopps",
+                  "该称呼承认Judy刚取得的警员身份，并在毕业互动中给予正式制度定位。",
+                  "不写整部影片的人物成长"
+                ],
+                [
+                  "ZN-P007-01 loser",
+                  "该直接称呼在欺凌场景中贬低幼年Judy，并强化不对等位置。",
+                  "不推广为群体本质"
+                ]
+              ]
+            }
+          ],
           "field_type": "controlled_single",
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "st_characterizing_function",
@@ -1531,7 +1839,8 @@
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "tt_characterizing_function_status",
@@ -1546,12 +1855,28 @@
             "Not Assessable"
           ],
           "theory_zh": "",
-          "value_guides": [],
+          "value_guides": [
+            {
+              "headers": [
+                "Event",
+                "可接受的局部写法",
+                "边界"
+              ],
+              "rows": [
+                [
+                  "ZN-P011-02 朱迪警官",
+                  "该普通话称呼承认Judy的警员身份；结合TT声音与共享画面说明当前互动效果。",
+                  "独立依据TT证据，不提前比较ST"
+                ]
+              ]
+            }
+          ],
           "field_type": "controlled_single",
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "tt_characterizing_function",
@@ -1566,7 +1891,8 @@
           "entry_role": "coder",
           "required": true,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         }
       ]
     },
@@ -1594,7 +1920,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "derived_verbal_flags",
@@ -1620,7 +1947,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "intermodal_relation_change_records",
@@ -1641,7 +1969,14 @@
             "tt_record_id",
             "intermodal_relation_change",
             "note"
-          ]
+          ],
+          "record_example": {
+            "intermodal_pair_id": "System生成",
+            "st_record_id": "ZN-P011-02-ST-IM-01",
+            "tt_record_id": "ZN-P011-02-TT-IM-01",
+            "intermodal_relation_change": "Retained",
+            "note": "两侧记录围绕同一local claim，relation type均为Reinforcement。"
+          }
         },
         {
           "id": "characterizing_outcome_records",
@@ -1661,7 +1996,13 @@
             "st_local_claim",
             "tt_local_claim",
             "characterizing_outcome_type"
-          ]
+          ],
+          "record_example": {
+            "outcome_record_id": "System生成",
+            "st_local_claim": "Officer Hopps承认Judy的正式警员身份。",
+            "tt_local_claim": "朱迪警官承认Judy的正式警员身份。",
+            "characterizing_outcome_type": "Broadly Equivalent"
+          }
         },
         {
           "id": "support_redistribution_records",
@@ -1684,7 +2025,24 @@
             "support_from",
             "support_to",
             "support_redistribution_note"
-          ]
+          ],
+          "record_example": {
+            "outcome_record_id": "ZN-P020-02-OUT-01",
+            "st_material_support": [
+              "Naming Expression"
+            ],
+            "tt_material_support": [
+              "Characterizing Co-text"
+            ],
+            "support_redistribution_status": "Redistributed",
+            "support_from": [
+              "Naming Expression"
+            ],
+            "support_to": [
+              "Characterizing Co-text"
+            ],
+            "support_redistribution_note": "可比claim从ST称名短语转移到TT完整Host wording。"
+          }
         },
         {
           "id": "multimodal_outcome_summary",
@@ -1699,7 +2057,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "evidence_sufficiency_gate",
@@ -1718,7 +2077,8 @@
           "entry_role": "reviewer",
           "required": false,
           "core": true,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "revision_targets",
@@ -1739,7 +2099,8 @@
           "entry_role": "reviewer",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "reviewer_note",
@@ -1754,7 +2115,8 @@
           "entry_role": "reviewer",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         }
       ]
     },
@@ -1775,7 +2137,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "cluster_label",
@@ -1790,7 +2153,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "cluster_definition",
@@ -1805,7 +2169,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "member_event_ids",
@@ -1820,7 +2185,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "narrative_phase_id",
@@ -1842,7 +2208,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "character_relation_thread",
@@ -1857,7 +2224,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "trajectory_summary",
@@ -1872,7 +2240,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "supporting_event_ids",
@@ -1887,7 +2256,8 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         },
         {
           "id": "counterevidence_event_ids",
@@ -1902,9 +2272,56 @@
           "entry_role": "researcher",
           "required": false,
           "core": false,
-          "record_fields": []
+          "record_fields": [],
+          "record_example": null
         }
       ]
     }
-  ]
+  ],
+  "overview": {
+    "status_glossary": [
+      [
+        "No Overt",
+        "该版本没有可定位的显性naming expression。"
+      ],
+      [
+        "No Material Cue",
+        "材料可核验，但当前证据层没有达到记录门槛的cue。"
+      ],
+      [
+        "Not Applicable",
+        "上游条件未成立。"
+      ],
+      [
+        "Not Assessable",
+        "文件、音轨、画面或边界不足以判断。"
+      ],
+      [
+        "Unclear",
+        "现有材料支持两个或以上分类，无法稳定选择。"
+      ],
+      [
+        "Not Coded",
+        "尚未完成；正式统计前不得保留。"
+      ]
+    ],
+    "inclusion_rules": [
+      "至少一侧包含面向人物、角色群体或制度角色的显性口语命名表达。",
+      "表达含有可识别的nominal head，并承担识别、称呼、分类、重命名、标签化或公开口头展示功能。",
+      "Metalinguistic naming只纳入对具体人物名称或名词性标签的赋予、回忆、质疑、拒绝或讨论。"
+    ],
+    "exclusion_rules": [
+      "代词、零指称和未形成名词性人物标签的单独性质形容词。",
+      "面向物品、事件或环境的描述。",
+      "未被口头读出或谈及的纯画面题字。",
+      "无法核验、重复或错误切分的候选项。"
+    ],
+    "event_split_rules": [
+      "每个可独立定位的naming expression occurrence建立一个Event。",
+      "同一句出现多个可独立编码的nominal units时分别建立Events，可共享Host与AV window。",
+      "同一expression在可分离时间点或独立语调单元重复时逐次建立Event。",
+      "Title加Personal Name形成常规整合称呼时保留为一个expression。",
+      "Coder发现遗漏时提交Missing Candidate，由Researcher核实后新增。"
+    ]
+  }
 }

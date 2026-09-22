@@ -64,6 +64,20 @@ def schema_errors(schema: Any) -> list[str]:
             record_fields = field.get("record_fields", [])
             if not isinstance(record_fields, list) or not all(str(value).strip() for value in record_fields):
                 errors.append(f"{field_id} 是record_list，但没有有效record_fields。")
+            required_record_fields = field.get("required_record_fields", [])
+            unknown_required = set(required_record_fields) - set(record_fields)
+            if unknown_required:
+                errors.append(f"{field_id} 的required_record_fields不存在：{', '.join(sorted(unknown_required))}。")
+            column_types = field.get("record_column_types", {})
+            value_lists = field.get("record_value_lists", {})
+            unknown_typed = set(column_types) - set(record_fields)
+            if unknown_typed:
+                errors.append(f"{field_id} 的record column不存在：{', '.join(sorted(unknown_typed))}。")
+            for column, column_type in column_types.items():
+                if column_type not in {"select", "multiselect", "text"}:
+                    errors.append(f"{field_id}.{column} 的record column type无效。")
+                if column_type in {"select", "multiselect"} and not value_lists.get(column):
+                    errors.append(f"{field_id}.{column} 缺少受控值域。")
         if field.get("provenance_class") not in schema.get("provenance_classes", {}):
             errors.append(f"{field_id} 的 provenance_class 无效或缺失。")
     retired = {"close_analysis_selection", "selection_stratum"}
@@ -85,7 +99,7 @@ def fields_for_role(schema: dict[str, Any], role: str) -> list[dict[str, Any]]:
     if role == "Coder":
         roles = {"coder", "coder_verification"}
     elif role == "Researcher":
-        roles = {"researcher"}
+        roles = {"researcher", "coder_verification"}
     else:
         roles = set()
     return [field for field in schema["fields"] if field.get("entry_role") in roles]
@@ -309,7 +323,7 @@ def parse_multi(value: Any) -> list[str]:
     return [item.strip() for item in re.split(r"\s*[|;]\s*", str(value)) if item.strip()]
 
 
-def parse_records(value: Any, columns: list[str]) -> list[dict[str, str]]:
+def parse_records(value: Any, columns: list[str]) -> list[dict[str, Any]]:
     if isinstance(value, list):
         rows = value
     elif value is None or not str(value).strip():
@@ -320,19 +334,27 @@ def parse_records(value: Any, columns: list[str]) -> list[dict[str, str]]:
             rows = loaded if isinstance(loaded, list) else []
         except (TypeError, ValueError, json.JSONDecodeError):
             rows = []
-    result = []
+    result: list[dict[str, Any]] = []
     for row in rows:
         if not isinstance(row, dict):
             continue
-        clean = {column: str(row.get(column, "")).strip() for column in columns}
-        if any(clean.values()):
+        clean: dict[str, Any] = {}
+        for column in columns:
+            raw = row.get(column, "")
+            if isinstance(raw, list):
+                clean[column] = [str(item).strip() for item in raw if str(item).strip()]
+            else:
+                clean[column] = str(raw).strip()
+        if any(not is_blank(item) for item in clean.values()):
             result.append(clean)
     return result
 
 
 def is_blank(value: Any) -> bool:
     if isinstance(value, list):
-        return not value
+        return not value or all(is_blank(item) for item in value)
+    if isinstance(value, dict):
+        return not value or all(is_blank(item) for item in value.values())
     return not str(value).strip()
 
 
@@ -346,7 +368,186 @@ def record_constraint_errors(schema: dict[str, Any], values: dict[str, Any]) -> 
         if is_blank(values.get(records_id)):
             label = fmap.get(records_id, {}).get("display_name", records_id)
             errors.append(f"{label}：当前Status要求至少一条Record。")
+    for field in schema.get("fields", []):
+        if field.get("field_type") != "record_list":
+            continue
+        field_id = field["id"]
+        columns = field.get("record_fields", [])
+        records = parse_records(values.get(field_id), columns)
+        required_columns = field.get("required_record_fields", [])
+        value_lists = field.get("record_value_lists", {})
+        column_types = field.get("record_column_types", {})
+        for row_number, record in enumerate(records, start=1):
+            for column in required_columns:
+                if is_blank(record.get(column)):
+                    errors.append(f"{field_id} 第{row_number}条缺少 {column}。")
+            for column, options in value_lists.items():
+                raw = record.get(column)
+                chosen = raw if isinstance(raw, list) else ([] if is_blank(raw) else [raw])
+                invalid = [str(item) for item in chosen if str(item) not in options]
+                if invalid:
+                    errors.append(f"{field_id} 第{row_number}条 {column} 含无效值：{', '.join(invalid)}。")
+
+            if field_id in {"st_intermodal_relation_records", "tt_intermodal_relation_records"}:
+                component_set = str(record.get("component_set", ""))
+                component_requirements = {
+                    "Verbal": "verbal_component",
+                    "Vocal": "vocal_record_ids",
+                    "Visual": "visual_record_ids",
+                }
+                for component, column in component_requirements.items():
+                    if component in component_set and is_blank(record.get(column)):
+                        errors.append(f"{field_id} 第{row_number}条选择了{component}，必须填写 {column}。")
+
+            if field_id == "intermodal_relation_change_records":
+                relation = str(record.get("intermodal_relation_change", ""))
+                if relation in {"Retained", "Changed"}:
+                    if is_blank(record.get("st_record_id")) or is_blank(record.get("tt_record_id")):
+                        errors.append(f"{field_id} 第{row_number}条的{relation}需要ST和TT record IDs。")
+                elif relation == "ST Relation Not Maintained" and is_blank(record.get("st_record_id")):
+                    errors.append(f"{field_id} 第{row_number}条需要st_record_id。")
+                elif relation == "New TT Relation" and is_blank(record.get("tt_record_id")):
+                    errors.append(f"{field_id} 第{row_number}条需要tt_record_id。")
+
+            if field_id == "support_redistribution_records":
+                status = str(record.get("support_redistribution_status", ""))
+                if status in {"Redistributed", "Mixed／Partial"}:
+                    if is_blank(record.get("support_from")) or is_blank(record.get("support_to")):
+                        errors.append(f"{field_id} 第{row_number}条的{status}必须填写support_from和support_to。")
     return errors
+
+
+def parse_timecode_seconds(value: Any) -> float | None:
+    text = str(value or "").strip().replace(",", ".")
+    if not text:
+        return None
+    text = text.split("–", 1)[0].strip()
+    parts = text.split(":")
+    try:
+        numbers = [float(part) for part in parts]
+    except ValueError:
+        return None
+    if len(numbers) == 3:
+        return numbers[0] * 3600 + numbers[1] * 60 + numbers[2]
+    if len(numbers) == 2:
+        return numbers[0] * 60 + numbers[1]
+    if len(numbers) == 1:
+        return numbers[0]
+    return None
+
+
+def derive_clip_duration(values: dict[str, Any]) -> float | None:
+    start = parse_timecode_seconds(values.get("shared_av_window_start"))
+    end = parse_timecode_seconds(values.get("shared_av_window_end"))
+    if start is None or end is None or end <= start:
+        return None
+    return round(end - start, 6)
+
+
+def derive_temporal_values(values: dict[str, Any]) -> dict[str, Any]:
+    if values.get("st_naming_presence") != "Overt" or values.get("tt_naming_presence") != "Overt":
+        return {"temporal_comparability": "Not Comparable"}
+    duration = values.get("clip_duration") or derive_clip_duration(values)
+    try:
+        duration = float(duration)
+        s0, s1 = float(values.get("st_naming_onset", "")), float(values.get("st_naming_offset", ""))
+        t0, t1 = float(values.get("tt_naming_onset", "")), float(values.get("tt_naming_offset", ""))
+        if duration <= 0 or s1 < s0 or t1 < t0:
+            raise ValueError
+    except (TypeError, ValueError):
+        return {"temporal_comparability": "Not Assessable"}
+    intersection = max(0.0, min(s1, t1) - max(s0, t0))
+    union = max(s1, t1) - min(s0, t0)
+    return {
+        "clip_duration": round(duration, 6),
+        "normalized_st_onset": round(s0 / duration, 6),
+        "normalized_st_offset": round(s1 / duration, 6),
+        "normalized_tt_onset": round(t0 / duration, 6),
+        "normalized_tt_offset": round(t1 / duration, 6),
+        "temporal_iou": round(intersection / union, 6) if union > 0 else 1.0,
+        "temporal_comparability": "Comparable",
+    }
+
+
+def _normalized_text(value: Any) -> str:
+    return re.sub(r"\W+", "", str(value or "").casefold(), flags=re.UNICODE)
+
+
+def derive_verbal_values(values: dict[str, Any]) -> dict[str, Any]:
+    pattern = str(values.get("verbal_correspondence", "")).strip()
+    if not pattern:
+        return {}
+    flags: list[str] = []
+    st_expression = _normalized_text(values.get("st_naming_expression"))
+    tt_expression = _normalized_text(values.get("tt_naming_expression"))
+    st_bases = set(parse_multi(values.get("st_naming_bases")))
+    tt_bases = set(parse_multi(values.get("tt_naming_bases")))
+    st_treatment = str(values.get("st_interactional_treatment", ""))
+    tt_treatment = str(values.get("tt_interactional_treatment", ""))
+    if pattern == "Comparable Overt Naming":
+        flags.append("Close Retention" if st_expression and st_expression == tt_expression else "Reformulation")
+    elif pattern == "Reconfigured Overt Naming":
+        if st_bases != tt_bases:
+            flags.append("Basis Shift")
+        if st_treatment != tt_treatment:
+            flags.append("Treatment Shift")
+        if st_expression and tt_expression:
+            ratio = len(tt_expression) / max(len(st_expression), 1)
+            if ratio >= 1.2:
+                flags.append("Expansion")
+            elif ratio <= 0.8:
+                flags.append("Compression")
+        if not flags:
+            flags.append("Reformulation")
+    elif pattern == "ST-only Overt Naming":
+        flags.extend(["De-naming", "Omission"])
+    elif pattern == "TT-only Overt Naming":
+        flags.append("Addition")
+    else:
+        flags.append("No flag")
+    return {"derived_verbal_rendering_pattern": pattern, "derived_verbal_flags": flags}
+
+
+def derive_intermodal_change_records(values: dict[str, Any], event_id: str) -> list[dict[str, str]]:
+    columns = ["record_id", "component_set", "verbal_component", "vocal_record_ids", "visual_record_ids", "local_claim", "relation_type", "evidence_note"]
+    st_records = parse_records(values.get("st_intermodal_relation_records"), columns)
+    tt_records = parse_records(values.get("tt_intermodal_relation_records"), columns)
+    unused_tt = set(range(len(tt_records)))
+    result: list[dict[str, str]] = []
+    ordinal = 0
+    for st_record in st_records:
+        match = next((index for index in unused_tt if _normalized_text(tt_records[index].get("local_claim")) == _normalized_text(st_record.get("local_claim")) and _normalized_text(st_record.get("local_claim"))), None)
+        ordinal += 1
+        if match is None:
+            result.append({
+                "intermodal_pair_id": f"{event_id}-IMPAIR-{ordinal:02d}",
+                "st_record_id": str(st_record.get("record_id", "")),
+                "tt_record_id": "",
+                "intermodal_relation_change": "ST Relation Not Maintained",
+                "note": "System suggestion: no TT record with the same normalized local claim.",
+            })
+            continue
+        unused_tt.remove(match)
+        tt_record = tt_records[match]
+        same_type = st_record.get("relation_type") == tt_record.get("relation_type")
+        result.append({
+            "intermodal_pair_id": f"{event_id}-IMPAIR-{ordinal:02d}",
+            "st_record_id": str(st_record.get("record_id", "")),
+            "tt_record_id": str(tt_record.get("record_id", "")),
+            "intermodal_relation_change": "Retained" if same_type else "Changed",
+            "note": "System suggestion from exact normalized local-claim pairing; Researcher must verify.",
+        })
+    for index in sorted(unused_tt):
+        ordinal += 1
+        tt_record = tt_records[index]
+        result.append({
+            "intermodal_pair_id": f"{event_id}-IMPAIR-{ordinal:02d}",
+            "st_record_id": "",
+            "tt_record_id": str(tt_record.get("record_id", "")),
+            "intermodal_relation_change": "New TT Relation",
+            "note": "System suggestion: no ST record with the same normalized local claim.",
+        })
+    return result
 
 
 def percent_agreement(a: pd.Series, b: pd.Series) -> float:
@@ -365,23 +566,81 @@ def cohen_kappa(a: pd.Series, b: pd.Series) -> float:
     return math.nan if abs(1 - expected) < 1e-12 else (observed - expected) / (1 - expected)
 
 
-def compare_coders(left: pd.DataFrame, right: pd.DataFrame, fields: list[str]) -> tuple[pd.DataFrame, pd.DataFrame]:
+def _span_bounds(value: Any) -> tuple[float, float] | None:
+    # Spans are offsets, so the separator in "1-4" must not be parsed as a
+    # negative sign. Negative offsets are outside the Codebook's span model.
+    numbers = re.findall(r"\d+(?:\.\d+)?", str(value or ""))
+    if len(numbers) < 2:
+        return None
+    start, end = float(numbers[0]), float(numbers[1])
+    return (start, end) if end >= start else None
+
+
+def _span_iou(left: Any, right: Any) -> float | None:
+    a, b = _span_bounds(left), _span_bounds(right)
+    if a is None or b is None:
+        return None
+    intersection = max(0.0, min(a[1], b[1]) - max(a[0], b[0]))
+    union = max(a[1], b[1]) - min(a[0], b[0])
+    return intersection / union if union > 0 else 1.0
+
+
+def _set_scores(left: Any, right: Any) -> tuple[float, float]:
+    a, b = set(parse_multi(left)), set(parse_multi(right))
+    if not a and not b:
+        return 1.0, 1.0
+    union = a | b
+    intersection = a & b
+    jaccard = len(intersection) / len(union) if union else 1.0
+    precision = len(intersection) / len(a) if a else 0.0
+    recall = len(intersection) / len(b) if b else 0.0
+    f1 = 2 * precision * recall / (precision + recall) if precision + recall else 0.0
+    return jaccard, f1
+
+
+def compare_coders(
+    left: pd.DataFrame,
+    right: pd.DataFrame,
+    fields: list[str],
+    schema: dict[str, Any] | None = None,
+) -> tuple[pd.DataFrame, pd.DataFrame]:
     id_col = next((name for name in ("event_id", "Event ID", "item_id", "Item ID", "No.", "No", "ID") if name in left and name in right), None)
     if id_col is None:
         raise ValueError("两份文件需要相同的 event_id（或旧版 item_id／No.）列。")
     merged = left.merge(right, on=id_col, suffixes=("_coder1", "_coder2"), how="inner")
     summary, disagreements = [], []
+    fmap = field_map(schema) if schema else {}
     for field in fields:
         a_col, b_col = f"{field}_coder1", f"{field}_coder2"
         if a_col not in merged or b_col not in merged:
             continue
+        left_values = merged[a_col].fillna("").astype(str)
+        right_values = merged[b_col].fillna("").astype(str)
+        field_type = fmap.get(field, {}).get("field_type", "")
+        jaccards: list[float] = []
+        set_f1s: list[float] = []
+        span_ious: list[float] = []
+        if field_type == "controlled_multi":
+            for left_value, right_value in zip(left_values, right_values):
+                jaccard, set_f1 = _set_scores(left_value, right_value)
+                jaccards.append(jaccard)
+                set_f1s.append(set_f1)
+            exact_left = left_values.map(lambda value: " | ".join(sorted(parse_multi(value))))
+            exact_right = right_values.map(lambda value: " | ".join(sorted(parse_multi(value))))
+        else:
+            exact_left, exact_right = left_values, right_values
+        if field in {"st_text_span", "tt_text_span"}:
+            span_ious = [score for score in (_span_iou(a, b) for a, b in zip(left_values, right_values)) if score is not None]
         summary.append({
             "field": field,
             "n_compared": int((~(merged[a_col].isna() | merged[b_col].isna())).sum()),
-            "percent_agreement": percent_agreement(merged[a_col], merged[b_col]),
-            "cohen_kappa": cohen_kappa(merged[a_col], merged[b_col]),
+            "percent_agreement": percent_agreement(exact_left, exact_right),
+            "cohen_kappa": cohen_kappa(exact_left, exact_right) if field_type != "controlled_multi" else math.nan,
+            "mean_jaccard": sum(jaccards) / len(jaccards) if jaccards else math.nan,
+            "mean_set_f1": sum(set_f1s) / len(set_f1s) if set_f1s else math.nan,
+            "mean_span_iou": sum(span_ious) / len(span_ious) if span_ious else math.nan,
         })
-        mismatch = merged[a_col].astype(str) != merged[b_col].astype(str)
+        mismatch = exact_left != exact_right
         for _, row in merged.loc[mismatch, [id_col, a_col, b_col]].iterrows():
             disagreements.append({
                 "event_id": row[id_col], "field": field,

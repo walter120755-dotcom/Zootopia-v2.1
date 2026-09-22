@@ -5,11 +5,15 @@ import pandas as pd
 
 from utils.core import (
     compare_coders,
+    derive_clip_duration,
+    derive_temporal_values,
+    derive_verbal_values,
     ensure_item_ids,
     fields_for_role,
     read_annotation_standard,
     read_json,
     read_table,
+    record_constraint_errors,
     schema_errors,
     workbook_sheets,
 )
@@ -62,7 +66,8 @@ def test_v21_field_inventory_and_removed_l2():
     assert len(schema_ids) == 92
     assert schema_ids == standard_ids
     assert not any(field["analytical_level"].startswith("L2") for field in schema["fields"])
-    assert schema["schema_version"] == "2.1-revised-pre-pilot"
+    assert schema["schema_version"] == "2.1-revised-web-alignment-fix"
+    assert schema["interface_version"] == "2.1-web-alignment-fix"
 
 
 def test_coder_field_set_contains_revised_core_fields():
@@ -76,6 +81,14 @@ def test_record_fields_have_declared_columns():
     records = [field for field in read_json()["fields"] if field["field_type"] == "record_list"]
     assert records
     assert all(field.get("record_fields") for field in records)
+    assert all(field.get("required_record_fields") for field in records)
+    assert all(field.get("record_column_types") for field in records)
+
+
+def test_researcher_can_verify_prefilled_fields():
+    researcher_fields = fields_for_role(read_json(), "Researcher")
+    roles = {field["entry_role"] for field in researcher_fields}
+    assert {"researcher", "coder_verification"} <= roles
 
 
 def test_media_fields_are_not_in_schema():
@@ -107,6 +120,69 @@ def test_reliability_comparison_and_disagreement_list():
     assert disagreements.to_dict("records") == [
         {"event_id": "2", "field": "field", "coder_1": "B", "coder_2": "C"}
     ]
+
+
+def test_temporal_derivation_uses_shared_clip_origin_and_iou():
+    values = {
+        "shared_av_window_start": "00:01:00.000",
+        "shared_av_window_end": "00:01:10.000",
+        "st_naming_presence": "Overt",
+        "tt_naming_presence": "Overt",
+        "st_naming_onset": "2.0",
+        "st_naming_offset": "4.0",
+        "tt_naming_onset": "3.0",
+        "tt_naming_offset": "5.0",
+    }
+    assert derive_clip_duration(values) == 10.0
+    derived = derive_temporal_values(values)
+    assert derived["normalized_st_onset"] == 0.2
+    assert derived["normalized_tt_offset"] == 0.5
+    assert derived["temporal_iou"] == 0.333333
+
+
+def test_verbal_derivation_and_record_validation():
+    derived = derive_verbal_values({
+        "verbal_correspondence": "ST-only Overt Naming",
+        "st_naming_expression": "dumb bunny",
+        "tt_naming_expression": "",
+    })
+    assert derived["derived_verbal_flags"] == ["De-naming", "Omission"]
+
+    schema = read_json()
+    errors = record_constraint_errors(schema, {
+        "shared_visual_evidence_status": "One or More Material Visual Cues",
+        "shared_visual_evidence_records": [{"visual_record_id": "", "cue_type": "Invalid"}],
+    })
+    assert any("clip_local_span" in error for error in errors)
+
+    errors = record_constraint_errors(schema, {
+        "shared_visual_evidence_records": [{
+            "clip_local_span": "00:00.00–00:01.00",
+            "cue_type": "Invalid",
+            "visible_participants_or_objects": "Judy",
+            "observable_note": "Judy visible",
+        }],
+    })
+    assert any("无效值" in error for error in errors)
+
+
+def test_multilabel_and_span_reliability_metrics():
+    schema = read_json()
+    left = pd.DataFrame({
+        "event_id": ["1"],
+        "st_naming_bases": ["Species／Group | Role／Institution"],
+        "st_text_span": ["1-4"],
+    })
+    right = pd.DataFrame({
+        "event_id": ["1"],
+        "st_naming_bases": ["Species／Group"],
+        "st_text_span": ["2-4"],
+    })
+    summary, _ = compare_coders(left, right, ["st_naming_bases", "st_text_span"], schema=schema)
+    by_field = summary.set_index("field")
+    assert by_field.loc["st_naming_bases", "mean_jaccard"] == 0.5
+    assert round(by_field.loc["st_naming_bases", "mean_set_f1"], 6) == 0.666667
+    assert round(by_field.loc["st_text_span", "mean_span_iou"], 6) == 0.666667
 
 
 def test_xlsx_fallback_when_openpyxl_is_missing(monkeypatch):

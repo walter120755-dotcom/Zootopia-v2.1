@@ -76,13 +76,21 @@ def field_help(field: dict[str, Any]) -> str:
         row = guides[0]["rows"][0]
         if len(row) >= 3:
             example = f"\n\n示例：{row[0]} — {row[2]}"
-    return f"定义：{definition}\n\n填写：{rule}{example}"
+    role = field.get("entry_role", "unknown")
+    return f"定义：{definition}\n\n填写：{rule}\n\n责任：{role}{example}"
+
+
+def field_label(field: dict[str, Any]) -> str:
+    label = field["display_name"]
+    if field.get("entry_role") in {"coder", "coder_verification"} and field.get("required_for_included_item"):
+        return f":red[{label}]"
+    return label
 
 
 def field_widget(field: dict[str, Any], existing: dict[str, Any], key_prefix: str):
     field_id = field["id"]
     key = f"{key_prefix}__{field_id}"
-    label = field["display_name"] + (" *" if field.get("required_for_included_item") else "")
+    label = field_label(field)
     field_type = field["field_type"]
     current = existing.get(field_id, []) if field_type == "controlled_multi" else existing.get(field_id, "")
     options = field.get("full_value_list", [])
@@ -96,22 +104,61 @@ def field_widget(field: dict[str, Any], existing: dict[str, Any], key_prefix: st
     if field_type == "record_list":
         columns = field.get("record_fields", [])
         records = parse_records(current, columns)
-        frame = pd.DataFrame(records, columns=columns)
+        column_types = field.get("record_column_types", {})
+        value_lists = field.get("record_value_lists", {})
+        required = set(field.get("required_record_fields", []))
+        disabled = set(field.get("disabled_record_fields", []))
+        if records:
+            frame = pd.DataFrame(records, columns=columns)
+        else:
+            frame = pd.DataFrame({column: pd.Series(dtype="object") for column in columns})
+        for column, column_type in column_types.items():
+            if column_type == "multiselect" and column in frame:
+                frame[column] = frame[column].map(lambda value: value if isinstance(value, list) else parse_multi(value))
         st.markdown(f"**{label}**")
         st.caption(field_help(field))
+        configs: dict[str, Any] = {}
+        for column in columns:
+            column_type = column_types.get(column, "text")
+            common = {
+                "label": column,
+                "required": column in required,
+                "disabled": column in disabled,
+            }
+            if column_type == "select":
+                configs[column] = st.column_config.SelectboxColumn(
+                    **common,
+                    options=value_lists.get(column, []),
+                )
+            elif column_type == "multiselect":
+                configs[column] = st.column_config.MultiselectColumn(
+                    **common,
+                    options=value_lists.get(column, []),
+                    accept_new_options=False,
+                    color="primary",
+                )
+            else:
+                configs[column] = st.column_config.TextColumn(**common)
         edited = st.data_editor(
             frame,
             key=key,
             hide_index=True,
             num_rows="dynamic",
             width="stretch",
-            column_config={column: st.column_config.TextColumn(column) for column in columns},
+            column_config=configs,
         )
-        return [
-            {column: str(row.get(column, "")).strip() for column in columns}
-            for row in edited.to_dict("records")
-            if any(str(row.get(column, "")).strip() for column in columns)
-        ]
+        cleaned = []
+        for row in edited.to_dict("records"):
+            result: dict[str, Any] = {}
+            for column in columns:
+                value = row.get(column, "")
+                if column_types.get(column) == "multiselect":
+                    result[column] = [str(item).strip() for item in (value or []) if str(item).strip()]
+                else:
+                    result[column] = str(value or "").strip()
+            if any(value if isinstance(value, list) else str(value).strip() for value in result.values()):
+                cleaned.append(result)
+        return cleaned
     if field_type == "decimal":
         return st.text_input(label, value=str(current), help=field_help(field), key=key, placeholder="例如 1.25")
     if field_type == "long_text":
@@ -142,3 +189,6 @@ def field_card(field: dict[str, Any]) -> None:
                 st.table(rows)
         if field.get("record_fields"):
             st.markdown("**Record结构：** " + " · ".join(field["record_fields"]))
+        if field.get("record_example"):
+            st.markdown("**完整Record示例：**")
+            st.table([field["record_example"]])

@@ -24,9 +24,10 @@ columns[2].metric(
 )
 
 standard = st.session_state["annotation_standard"]
-st.header("Codebook v2.1 Revised · Pre-pilot")
+schema = st.session_state["schema"]
+st.header("Codebook v2.1 Revised · Web Alignment Fix")
 st.caption(
-    f"版本 {standard['version']} · {standard['field_count']} 个字段。"
+    f"版本 {schema['schema_version']} · {len(schema['fields'])} 个字段。"
     "原L2已撤销；L3至L6保留编号以维持审计追踪。"
 )
 
@@ -40,25 +41,61 @@ with st.expander("适用范围、标注单位与角色", expanded=True, icon=":m
     for role_name, role_text in quick_start["roles"].items():
         st.markdown(f"- **{role_name}**：{role_text}")
 
-for level in standard["levels"]:
+overview = standard.get("overview", {})
+with st.expander("纳入、排除与Event切分规则", expanded=True, icon=":material/rule:"):
+    if overview.get("status_glossary"):
+        st.markdown("**统一状态值**")
+        st.table([{"状态": row[0], "使用条件": row[1]} for row in overview["status_glossary"]])
+    for title, key in (
+        ("纳入标准", "inclusion_rules"),
+        ("排除标准", "exclusion_rules"),
+        ("Event切分规则", "event_split_rules"),
+    ):
+        st.markdown(f"**{title}**")
+        for rule in overview.get(key, []):
+            st.markdown(f"- {rule}")
+
+st.caption("显示规则：红色字段标题表示Coder在相应条件成立时必须提交或核验；★表示核心分析字段，不等同于Coder责任。")
+
+level_titles = {
+    "L0": "候选语料与可追溯性",
+    "L1": "命名实现与语言对应",
+    "L3": "版本内多模态证据",
+    "L4": "版本内人物刻画功能",
+    "L5": "跨版本重构与结果",
+    "L6": "语料与叙事聚合",
+}
+for level_id, title in level_titles.items():
+    level_fields = [
+        field for field in schema["fields"]
+        if str(field.get("analytical_level", "")).split(maxsplit=1)[0] == level_id
+    ]
     with st.expander(
-        f"{level['id']} · {level['title_zh']}（{len(level['fields'])}个字段）",
+        f"{level_id} · {title}（{len(level_fields)}个字段）",
         icon=":material/menu_book:",
     ):
-        for field in level["fields"]:
-            st.markdown(f"#### {field['display_name']}  `{field['id']}`")
-            if field["definition_zh"]:
-                st.markdown(f"**定义：** {field['definition_zh']}")
-            if field["fill_zh"]:
-                st.markdown(f"**填写规则：** {field['fill_zh']}")
-            if field["options"]:
-                st.markdown("**可选值：** " + " · ".join(field["options"]))
+        for field in level_fields:
+            title_text = field["display_name"]
+            if field.get("entry_role") in {"coder", "coder_verification"} and field.get("required_for_included_item"):
+                title_text = f":red[{title_text}]"
+            st.markdown(f"#### {title_text}  `{field['id']}`")
+            if field.get("definition"):
+                st.markdown(f"**定义：** {field['definition']}")
+            if field.get("decision_rule"):
+                st.markdown(f"**填写规则：** {field['decision_rule']}")
+            if field.get("full_value_list"):
+                st.markdown("**可选值：** " + " · ".join(field["full_value_list"]))
             for guide in field.get("value_guides", []):
                 rows = [dict(zip(guide["headers"], row)) for row in guide["rows"]]
                 if rows:
                     st.table(rows)
-            required = "Coder必填／核验" if field["required"] else field["entry_role"]
-            st.caption(f"字段类型：{field['field_type']} · 责任：{required}")
+            if field.get("record_fields"):
+                st.markdown("**Record结构：** " + " · ".join(field["record_fields"]))
+            if field.get("record_example"):
+                st.markdown("**完整Record示例：**")
+                st.table([field["record_example"]])
+            responsibility = "Coder必填／核验" if field.get("required_for_included_item") and field.get("entry_role") in {"coder", "coder_verification"} else field.get("entry_role")
+            st.caption(f"字段类型：{field['field_type']} · 责任：{responsibility}")
 
 role = st.session_state["role"]
 if role == "Reviewer":

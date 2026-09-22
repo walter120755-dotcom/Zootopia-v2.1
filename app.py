@@ -6,7 +6,7 @@ from utils.core import read_annotation_standard, read_json, read_sample_items, s
 
 
 st.set_page_config(
-    page_title="Zootopia naming annotation · v2.1 pilot",
+    page_title="Zootopia naming annotation · v2.1 alignment fix",
     page_icon=":material/label:",
     layout="wide",
 )
@@ -17,7 +17,11 @@ st.session_state.setdefault("items", read_sample_items())
 st.session_state.setdefault("annotations", {})
 st.session_state.setdefault("reviews", {})
 st.session_state.setdefault("current_item", 0)
+st.session_state.setdefault("event_overrides", {})
+st.session_state.setdefault("st_phase_locks", set())
+st.session_state.setdefault("tt_phase_locks", set())
 st.session_state.setdefault("st_l4_locks", set())
+st.session_state.setdefault("tt_l4_locks", set())
 
 errors = schema_errors(st.session_state["schema"])
 if errors:
@@ -40,7 +44,7 @@ with st.sidebar:
     ).strip() or "anonymous"
     st.caption("角色用于工作分工，不等同于账户权限。浏览器会话关闭前，请下载CSV保存进度。")
     st.badge(f"Codebook {st.session_state['schema']['schema_version']}", color="blue")
-    st.caption("v2.1 revised pre-pilot：一个Event锚定一个可独立定位的naming expression occurrence。")
+    st.caption("v2.1 Web Alignment Fix：一个Event锚定一个可独立定位的naming expression occurrence。")
 
 pages = {
     "工作台": [
